@@ -2,19 +2,24 @@
 	"name": "ucaptcha",
 	"private": false,
 	"type": "module",
+	"packageManager": "bun@1.3.10",
 	"workspaces": [
-		"packages/backend",
-		"packages/frontend",
+		"apps/*",
 		"packages/core",
 		"packages/shared",
 		"packages/js"
 	],
 	"scripts": {
-		"format": "prettier --write ."
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"start": "turbo run start",
+		"format": "turbo run format",
+		"push": "turbo run push"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
-		"prettier": "^3.6.2"
+		"prettier": "^3.6.2",
+		"turbo": "^2.5.6"
 	},
 	"peerDependencies": {
 		"typescript": "^5"

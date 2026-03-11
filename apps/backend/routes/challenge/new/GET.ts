@@ -1,0 +1,48 @@
+import { getDynamicDifficulty } from "@ucaptcha/shared";
+import { getSiteByKey, getSiteIDFromKey } from "@ucaptcha/shared";
+import { Context } from "hono";
+import { redis } from "@ucaptcha/shared";
+import { errorResponse } from "@/lib/common";
+import { challengeKey, generateChallenge } from "@/lib/challenge";
+import { KEY_TTL } from "@/lib/keys";
+import { db } from "@ucaptcha/shared";
+import { challengesLogTable } from "@ucaptcha/shared";
+import { getResourceID } from "@ucaptcha/shared";
+
+export const getNewChallenge = async (c: Context) => {
+	const params = c.req.query();
+	if (!params.siteKey || !params.resource) {
+		return errorResponse(c, "Missing query parameters.", 400);
+	}
+	const siteKey = params.siteKey;
+	const resource = params.resource;
+	const site = await getSiteByKey(siteKey);
+	const siteID = await getSiteIDFromKey(siteKey);
+	const resourceID = await getResourceID(siteKey, resource);
+	if (!siteID || !resourceID) {
+		return errorResponse(c, "Given siteKey or resource does not exist.", 404);
+	}
+	const userID = site.userID;
+	const difficulty = await getDynamicDifficulty(siteID, resourceID);
+	const challenge = await generateChallenge(difficulty, userID, siteKey, resource);
+	if (!challenge) {
+		return errorResponse(c, "No challenge available.", 500);
+	}
+	await redis.setex(challengeKey(challenge.id), KEY_TTL, JSON.stringify(challenge));
+
+	await db.insert(challengesLogTable).values({
+		challengeID: challenge.id,
+		siteID: siteID,
+		resourceID: resourceID,
+		ttl: KEY_TTL,
+		difficulty: difficulty,
+		userID: userID
+	});
+
+	return c.json({
+		id: challenge.id,
+		g: challenge.g,
+		T: challenge.T,
+		N: challenge.N
+	});
+};

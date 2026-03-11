@@ -1,3 +1,3 @@
-packages/frontend/components/ui
+apps/frontend/components/ui
 *.json
 *.sql

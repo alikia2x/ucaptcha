@@ -4,7 +4,9 @@
 # -----------------------------------------------------------------------------
 
 # Use Bun's official image
-FROM oven/bun:1.2.19-alpine AS builder
+FROM oven/bun:1.3.10-alpine AS base
+
+FROM base AS builder
 
 WORKDIR /app
 
@@ -13,15 +15,15 @@ COPY . .
 RUN bun install
 
 # Build the frontend
-WORKDIR /app/packages/frontend
+WORKDIR /app/apps/frontend
 RUN bun run build
 
 # Production image, copy all the files and run next
-FROM builder AS runner
+FROM base AS runner
 WORKDIR /app
 
 # Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 ENV NODE_ENV=production \
     PORT=7922 \
@@ -29,15 +31,12 @@ ENV NODE_ENV=production \
 
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
-
-# COPY --from=builder /app/packages/frontend/public ./public
-
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /app/packages/frontend/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/packages/frontend/.next/static ./packages/frontend/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/frontend/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/frontend/.next/static ./apps/frontend/.next/static
 
-WORKDIR /app/packages/frontend
+WORKDIR /app/apps/frontend
 
 USER nextjs
 

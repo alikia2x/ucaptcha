@@ -8,10 +8,10 @@ uCATPCHA is a monorepo-based CAPTCHA verification system with a focus on Verifia
 
 ## Architecture
 
-This is a Bun workspace monorepo with the following packages:
+This is a Bun workspace monorepo with the following packages/apps:
 
-- **packages/backend** - Hono-based API server handling CAPTCHA challenges and verification
-- **packages/frontend** - Next.js dashboard for managing sites and viewing statistics
+- **apps/backend** - Hono-based API server handling CAPTCHA challenges and verification
+- **apps/frontend** - Next.js dashboard for managing sites and viewing statistics
 - **packages/shared** - Shared database utilities and models (Drizzle ORM)
 - **packages/js** - JavaScript client library for solving CAPTCHAs
 - **packages/core** - Core utilities and types
@@ -22,27 +22,31 @@ The backend uses PostgreSQL for persistent storage and Redis for caching/rate li
 ## Development Commands
 
 ### Root Level
+
 ```bash
 bun install                    # Install all dependencies
 bun run format                 # Format code with Prettier
 ```
 
-### Backend (packages/backend)
+### Backend (apps/backend)
+
 ```bash
-cd packages/backend
+cd apps/backend
 bun run dev                    # Start development server with hot reload
 bun run start                  # Start production server
 ```
 
-### Frontend (packages/frontend)
+### Frontend (apps/frontend)
+
 ```bash
-cd packages/frontend
+cd apps/frontend
 bun run dev                    # Start Next.js dev server (port 7922)
 bun run build                  # Build for production
 bun run start                  # Start production server
 ```
 
 ### Shared/Database (packages/shared)
+
 ```bash
 cd packages/shared
 bun run push                   # Push database schema changes
@@ -50,6 +54,7 @@ bun run studio                 # Open Drizzle Studio
 ```
 
 ### Docker Development
+
 ```bash
 docker-compose up -d           # Start all services (postgres, redis, backend, frontend)
 docker-compose down            # Stop all services
@@ -69,6 +74,7 @@ docker-compose logs -f frontend # Follow frontend logs
 ## API Endpoints
 
 The backend provides these main endpoints:
+
 - `GET /challenge/new` - Generate new CAPTCHA challenge
 - `GET /challenge/:id` - Get existing challenge details
 - `POST /challenge/:id/check` - Verify challenge solution
@@ -83,6 +89,7 @@ Uses Drizzle ORM with PostgreSQL. Schema files and migrations are in the package
 ## Environment Variables
 
 Key environment variables for development:
+
 - `DATABASE_URL` - PostgreSQL connection string
 - `REDIS_HOST` - Redis server host
 - `PORT` - Server port (backend: 8732, frontend: 7922)

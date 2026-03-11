@@ -1,4 +1,4 @@
-import { User } from "@db/schema";
+import { User } from "../db/schema";
 import { JWTPayload, SignJWT, jwtVerify } from "jose";
 
 const REFRESH_TOKEN_EXPIRES_IN = "14d";
