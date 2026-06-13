@@ -12,9 +12,9 @@ import { DeleteResourceDialog } from "./resources/DeleteResourceDialog";
 import {
 	createResourceAction,
 	updateResourceAction,
-	deleteResourceAction
+	deleteResourceAction,
 } from "@/app/(dashboard)/resources/actions";
-import { Resource as ResourceType, Site } from "@ucaptcha/shared";
+import type { Resource as ResourceType, Site } from "@ucaptcha/shared";
 
 interface ResourceWithSite extends ResourceType {
 	siteName: string;

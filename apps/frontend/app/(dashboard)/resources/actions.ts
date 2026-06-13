@@ -6,7 +6,7 @@ import {
 	createResource,
 	updateResource,
 	deleteResource,
-	resourceBelongsToUser
+	resourceBelongsToUser,
 } from "@ucaptcha/shared";
 
 import { getSites } from "@ucaptcha/shared";
@@ -20,7 +20,7 @@ export async function getResourcesData(userID: number, siteID?: number) {
 
 export async function createResourceAction(userID: number, formData: FormData) {
 	const name = formData.get("name") as string;
-	const siteID = parseInt(formData.get("siteID") as string);
+	const siteID = parseInt(formData.get("siteID") as string, 10);
 
 	if (!name || !siteID) {
 		throw new Error("Name and site are required");
@@ -34,7 +34,7 @@ export async function createResourceAction(userID: number, formData: FormData) {
 
 	await createResource({
 		name,
-		siteID
+		siteID,
 	});
 
 	revalidatePath("/resources");
@@ -42,7 +42,7 @@ export async function createResourceAction(userID: number, formData: FormData) {
 }
 
 export async function updateResourceAction(userID: number, formData: FormData) {
-	const id = parseInt(formData.get("id") as string);
+	const id = parseInt(formData.get("id") as string, 10);
 	const name = formData.get("name") as string;
 
 	if (!id || !name) {
@@ -60,7 +60,7 @@ export async function updateResourceAction(userID: number, formData: FormData) {
 }
 
 export async function deleteResourceAction(userID: number, formData: FormData) {
-	const id = parseInt(formData.get("id") as string);
+	const id = parseInt(formData.get("id") as string, 10);
 
 	if (!id) {
 		throw new Error("ID is required");

@@ -4,8 +4,8 @@ import { checkChallenge } from "@/routes/challenge/[id]/check/POST";
 import { getChallenge } from "@/routes/challenge/[id]/GET";
 import { sitesRouter } from "@/routes/sites";
 import { resourcesRouter } from "@/routes/resources";
-import { Hono } from "hono";
-import { Variables } from "hono/types";
+import type { Hono } from "hono";
+import type { Variables } from "hono/types";
 
 export function configureRoutes(app: Hono<{ Variables: Variables }>) {
 	app.get("/challenge/new", getNewChallenge);

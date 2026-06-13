@@ -1,5 +1,5 @@
 import { and, eq } from "drizzle-orm";
-import { Site, sitesTable } from "../schema";
+import { type Site, sitesTable } from "../schema";
 import { db } from "../pg";
 import { redis } from "../redis";
 
@@ -32,7 +32,7 @@ export const getSiteFromID = async (id: number) => {
 		return JSON.parse(cachedData) as Site;
 	}
 	const result = await db.select().from(sitesTable).where(eq(sitesTable.id, id));
-	if (result.length == 0) {
+	if (result.length === 0) {
 		return null;
 	}
 	await redis.setex(cacheKey, 3600, JSON.stringify(result[0]));

@@ -22,14 +22,14 @@ export default async function ResourcesPage({ params }: ResourcesPageProps) {
 	}
 
 	// Parse siteID from path parameters
-	const parsedSiteId = siteID && siteID.length > 0 ? parseInt(siteID[0]) : undefined;
+	const parsedSiteId = siteID && siteID.length > 0 ? parseInt(siteID[0], 10) : undefined;
 
 	// Fetch data using Server Action
 	const { resources, sites } = await getResourcesData(payload.userID, parsedSiteId);
 
 	// Filter resources by site ID if specified
 	const filteredResources = parsedSiteId
-		? resources.filter(resource => resource.siteID === parsedSiteId)
+		? resources.filter((resource) => resource.siteID === parsedSiteId)
 		: resources;
 
 	return (

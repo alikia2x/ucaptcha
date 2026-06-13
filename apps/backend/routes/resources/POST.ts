@@ -1,7 +1,7 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { errorResponse } from "@/lib/common";
 import { siteBelongsToUser } from "@ucaptcha/shared";
-import { AuthStore } from "@/middleware/auth";
+import type { AuthStore } from "@/middleware/auth";
 import { createResource } from "@ucaptcha/shared";
 
 export async function createResourceHandler(c: Context<{ Variables: AuthStore }>) {
@@ -24,7 +24,7 @@ export async function createResourceHandler(c: Context<{ Variables: AuthStore }>
 
 		const resource = await createResource({
 			siteID,
-			name
+			name,
 		});
 
 		if (resource === -1) {

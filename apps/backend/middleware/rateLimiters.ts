@@ -1,5 +1,5 @@
 import type { BlankEnv } from "hono/types";
-import { Context, Next } from "hono";
+import type { Context, Next } from "hono";
 import { RateLimiter } from "@koshnic/ratelimit";
 import { redis } from "@ucaptcha/shared";
 import { db } from "@ucaptcha/shared";
@@ -11,7 +11,7 @@ export const getUserQuota = async (uid: number) => {
 	const cacheKey = `ucaptcha:quota:${uid}`;
 	const cachedData = await redis.get(cacheKey);
 	if (cachedData) {
-		return Number.parseInt(cachedData);
+		return Number.parseInt(cachedData, 10);
 	}
 	const now = new Date();
 	const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

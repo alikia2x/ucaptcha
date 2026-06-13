@@ -12,7 +12,7 @@ export default async function Home() {
 					<Validating className="flex flex-col mt-6 max-lg:hidden" />
 				</div>
 				<Solving />
-                <Validating className="flex flex-col lg:hidden" />
+				<Validating className="flex flex-col lg:hidden" />
 			</div>
 		</div>
 	);

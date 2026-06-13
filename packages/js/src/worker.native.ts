@@ -25,7 +25,7 @@ const api: VdfWorkerApi = {
 		onProgress(100);
 
 		return result.toString();
-	}
+	},
 };
 
 Comlink.expose(api);

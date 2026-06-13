@@ -12,10 +12,10 @@ import { DeleteDifficultyDialog } from "./difficulty/DeleteDifficultyDialog";
 import {
 	createDifficultyConfigAction,
 	updateDifficultyConfigAction,
-	deleteDifficultyConfigAction
+	deleteDifficultyConfigAction,
 } from "@/app/(dashboard)/difficulty/actions";
-import { DifficultyConfigWithRelations } from "@ucaptcha/shared";
-import { Site, Resource } from "@ucaptcha/shared";
+import type { DifficultyConfigWithRelations } from "@ucaptcha/shared";
+import type { Site, Resource } from "@ucaptcha/shared";
 import type { CustomRule } from "./difficulty/CustomRulesManager";
 
 interface DifficultyProps {
@@ -31,7 +31,7 @@ export default function Difficulty({
 	sites,
 	resources,
 	selectedSiteId,
-	userID
+	userID,
 }: DifficultyProps) {
 	const [showCreateForm, setShowCreateForm] = useState(false);
 	const [editingDifficulty, setEditingDifficulty] =

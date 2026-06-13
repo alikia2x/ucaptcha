@@ -13,10 +13,11 @@
 		"dev": "turbo run dev",
 		"build": "turbo run build",
 		"start": "turbo run start",
-		"format": "turbo run format",
+		"format": "biome format --write .",
 		"push": "turbo run push"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.5.0",
 		"@types/bun": "latest",
 		"prettier": "^3.6.2",
 		"turbo": "^2.5.6"

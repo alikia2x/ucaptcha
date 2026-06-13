@@ -1,24 +1,18 @@
 import { Typography } from "@/components/ui/typography";
-import {
-	Card,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getUserQuota } from "@ucaptcha/shared";
 import { cookies } from "next/headers";
 import { verifyAuthToken } from "@ucaptcha/shared";
 import { Quota } from "@/components/Dashboard";
 import {
 	getSolvedChallengesInLastMonthByUser,
-	getChallengesGeneratedInLastMonthByUser
+	getChallengesGeneratedInLastMonthByUser,
 } from "@ucaptcha/shared";
 import { settingsManager } from "@ucaptcha/shared";
 
 export default async function Home() {
 	const cookieStore = await cookies();
-	const authToken = cookieStore.get("auth_token")!.value;
+	const authToken = cookieStore.get("auth_token")?.value;
 	const { payload } = await verifyAuthToken(authToken!);
 	const hasQuota = (await settingsManager.get("monthlyQuota")) > 0;
 	const quota = await getUserQuota(payload?.userID!, false);

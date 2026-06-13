@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogTitle
+	DialogTitle,
 } from "@/components/ui/dialog";
 
 interface EditResourceDialogProps {
@@ -23,7 +23,7 @@ export function EditResourceDialog({
 	onOpenChange,
 	resourceName,
 	onResourceNameChange,
-	onUpdate
+	onUpdate,
 }: EditResourceDialogProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>

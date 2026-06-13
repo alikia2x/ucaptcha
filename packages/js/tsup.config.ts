@@ -1,17 +1,17 @@
-import { type Options, defineConfig } from 'tsup';
+import { type Options, defineConfig } from "tsup";
 
-function generateConfig(jsx: boolean): Options {
+function generateConfig(_jsx: boolean): Options {
 	return {
-		target: 'esnext',
-		platform: 'browser',
-		format: 'esm',
-		entry: ['src/**/*.ts'],
+		target: "esnext",
+		platform: "browser",
+		format: "esm",
+		entry: ["src/**/*.ts"],
 		splitting: true,
-		outDir: 'dist/',
+		outDir: "dist/",
 		minify: true,
 		treeshake: false,
 		clean: true,
-        dts: true,
+		dts: true,
 	};
 }
 

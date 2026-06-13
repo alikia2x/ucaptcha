@@ -7,16 +7,16 @@ import {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogTitle
+	DialogTitle,
 } from "@/components/ui/dialog";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectValue
+	SelectValue,
 } from "@/components/ui/select";
-import { Site } from "@ucaptcha/shared";
+import type { Site } from "@ucaptcha/shared";
 
 interface CreateResourceDialogProps {
 	open: boolean;
@@ -37,7 +37,7 @@ export function CreateResourceDialog({
 	selectedSiteId,
 	onSiteIdChange,
 	sites,
-	onCreate
+	onCreate,
 }: CreateResourceDialogProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
@@ -65,7 +65,7 @@ export function CreateResourceDialog({
 						<Select
 							value={selectedSiteId?.toString() || "all"}
 							onValueChange={(value) =>
-								onSiteIdChange(isNaN(parseInt(value)) ? "all" : parseInt(value))
+								onSiteIdChange(Number.isNaN(parseInt(value, 10)) ? "all" : parseInt(value, 10))
 							}
 						>
 							<SelectTrigger className="w-45">

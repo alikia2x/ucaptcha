@@ -37,7 +37,7 @@ export async function generateChallenge(
 		T: difficulty.toString(),
 		N: key.N.toString(),
 		p: key.p.toString(),
-		q: key.q.toString()
+		q: key.q.toString(),
 	};
 	await redis.setex(
 		challengeKey(id),
@@ -50,7 +50,7 @@ export async function generateChallenge(
 		siteKey,
 		resource,
 		status: "pending",
-		...challenge
+		...challenge,
 	};
 }
 
@@ -84,7 +84,7 @@ export const updateChallengeStatus = async (id: string, status: Challenge["statu
 		currentTTL,
 		JSON.stringify({
 			...challenge,
-			status: status
+			status: status,
 		} as Challenge)
 	);
 };

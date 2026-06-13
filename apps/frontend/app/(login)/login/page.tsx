@@ -23,9 +23,9 @@ export default function LoginPage() {
 			const response = await fetch("/api/auth/login", {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ email, password })
+				body: JSON.stringify({ email, password }),
 			});
 
 			if (response.ok) {
@@ -34,7 +34,7 @@ export default function LoginPage() {
 				const errorData = await response.json();
 				setError(errorData.message || "Failed to login");
 			}
-		} catch (err) {
+		} catch (_err) {
 			setError("Network error.");
 		} finally {
 			setLoading(false);

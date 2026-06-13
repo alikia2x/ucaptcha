@@ -4,9 +4,9 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectValue
+	SelectValue,
 } from "@/components/ui/select";
-import { Site } from "@ucaptcha/shared";
+import type { Site } from "@ucaptcha/shared";
 
 interface SiteFilterProps {
 	sites: Site[];
@@ -23,7 +23,7 @@ export function SiteFilter({ sites, selectedSiteId, onSiteFilterChange }: SiteFi
 			<Select
 				value={selectedSiteId?.toString() || "all"}
 				onValueChange={(value) =>
-					onSiteFilterChange(isNaN(parseInt(value)) ? "all" : parseInt(value))
+					onSiteFilterChange(Number.isNaN(parseInt(value, 10)) ? "all" : parseInt(value, 10))
 				}
 			>
 				<SelectTrigger className="w-45">

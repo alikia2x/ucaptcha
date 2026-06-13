@@ -4,7 +4,7 @@ const tg = tv({
 	slots: {
 		h1: "scroll-m-20 text-4xl font-extrabold tracking-tight text-balance",
 		h2: "scroll-m-20 text-3xl font-semibold tracking-tight",
-		p: "leading-7"
+		p: "leading-7",
 	},
 });
 
@@ -58,5 +58,5 @@ function TypographyP({
 export const Typography = {
 	H1: TypographyH1,
 	H2: TypographyH2,
-	P: TypographyP
+	P: TypographyP,
 };

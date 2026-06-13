@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogTitle
+	DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +17,9 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectValue
+	SelectValue,
 } from "@/components/ui/select";
-import { Site, Resource } from "@ucaptcha/shared";
+import type { Site, Resource } from "@ucaptcha/shared";
 import { CustomRulesManager, type CustomRule } from "./CustomRulesManager";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -52,7 +52,7 @@ export function CreateDifficultyDialog({
 	onCustomRulesChange,
 	sites,
 	resources,
-	onCreate
+	onCreate,
 }: CreateDifficultyDialogProps) {
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -88,7 +88,7 @@ export function CreateDifficultyDialog({
 						<Select
 							value={selectedSiteId === "all" ? "" : selectedSiteId.toString()}
 							onValueChange={(value) =>
-								onSiteIdChange(value ? parseInt(value) : "all")
+								onSiteIdChange(value ? parseInt(value, 10) : "all")
 							}
 						>
 							<SelectTrigger>
@@ -115,7 +115,7 @@ export function CreateDifficultyDialog({
 									: selectedResourceId.toString()
 							}
 							onValueChange={(value) =>
-								onResourceIdChange(value === "default" ? "" : parseInt(value))
+								onResourceIdChange(value === "default" ? "" : parseInt(value, 10))
 							}
 						>
 							<SelectTrigger>

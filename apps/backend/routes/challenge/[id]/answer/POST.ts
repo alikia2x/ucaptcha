@@ -1,4 +1,4 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { redis } from "@ucaptcha/shared";
 import { errorResponse } from "@/lib/common";
 import { getChallengeByID, updateChallengeStatus, verifyChallenge } from "@/lib/challenge";
@@ -46,7 +46,7 @@ export const answerChallenge = async (c: Context<null, "/challenge/:id/answer", 
 	const jwt = await sign(
 		{
 			id: id,
-			exp: FIVE_MINUTES_LATER
+			exp: FIVE_MINUTES_LATER,
 		},
 		secret
 	);
@@ -56,6 +56,6 @@ export const answerChallenge = async (c: Context<null, "/challenge/:id/answer", 
 		.set({ correctlyAnswered: true })
 		.where(eq(challengesLogTable.challengeID, id));
 	return c.json({
-		token: jwt
+		token: jwt,
 	});
 };

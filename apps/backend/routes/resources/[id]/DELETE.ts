@@ -1,17 +1,17 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { and, eq } from "drizzle-orm";
 import { resourcesTable, sitesTable } from "@ucaptcha/shared";
 import { db } from "@ucaptcha/shared";
 import { errorResponse } from "@/lib/common";
 import { deleteResource } from "@ucaptcha/shared";
-import { AuthStore } from "@/middleware/auth";
+import type { AuthStore } from "@/middleware/auth";
 
 export async function deleteResourceHandler(c: Context<{ Variables: AuthStore }>) {
 	try {
 		const payload = c.get("authPayload");
 
-		const resourceId = parseInt(c.req.param("id"));
-		if (isNaN(resourceId)) {
+		const resourceId = parseInt(c.req.param("id"), 10);
+		if (Number.isNaN(resourceId)) {
 			return errorResponse(c, "Invalid resource ID", 400);
 		}
 

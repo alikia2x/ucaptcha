@@ -12,7 +12,7 @@ interface AllSettings {
 const defaultSettings = {
 	rateLimitPerSec: 50,
 	monthlyQuota: 1000000,
-	allowSignup: false
+	allowSignup: false,
 } satisfies AllSettings;
 
 type SettingKey = keyof AllSettings;
@@ -65,7 +65,7 @@ class SettingsManager {
 
 		await db.insert(settingsTable).values({ key, value }).onConflictDoUpdate({
 			target: settingsTable.key,
-			set: { value }
+			set: { value },
 		});
 	}
 

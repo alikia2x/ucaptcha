@@ -1,9 +1,9 @@
-import { Hono } from "hono";
+import type { Hono } from "hono";
 import { timing } from "hono/timing";
-import { Variables } from "hono/types";
+import type { Variables } from "hono/types";
 import { corsMiddleware } from "@/middleware/cors";
-import { contentType } from "middleware/contentType";
-import { bodyLimitForPing } from "middleware/bodyLimits";
+import { contentType } from "@/middleware/contentType";
+import { bodyLimitForPing } from "@/middleware/bodyLimits";
 import { newChallengeRateLimiter } from "@/middleware/rateLimiters";
 import { authMiddleware } from "@/middleware/auth";
 

@@ -4,20 +4,20 @@ import "@/app/global.css";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
-	subsets: ["latin"]
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
-	subsets: ["latin"]
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-	title: "μCaptcha: User-Friendly CAPTCHA Made Powerful"
+	title: "μCaptcha: User-Friendly CAPTCHA Made Powerful",
 };
 
 export default function RootLayout({
-	children
+	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {

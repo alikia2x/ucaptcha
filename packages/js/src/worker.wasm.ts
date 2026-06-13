@@ -36,7 +36,7 @@ const api: VdfWorkerApi = {
 		}
 
 		return currentG;
-	}
+	},
 };
 
 Comlink.expose(api);

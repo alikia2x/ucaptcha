@@ -1,4 +1,4 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { eq } from "drizzle-orm";
 import { sitesTable } from "@ucaptcha/shared";
 import { db } from "@ucaptcha/shared";
@@ -8,7 +8,7 @@ import { errorResponse } from "@/lib/common";
 export async function getSites(c: Context) {
 	try {
 		const authHeader = c.req.header("Authorization");
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
+		if (!authHeader?.startsWith("Bearer ")) {
 			return errorResponse(c, "Unauthorized", 401);
 		}
 

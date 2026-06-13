@@ -1,7 +1,7 @@
 import { serve } from "bun";
-import { Hono } from "hono";
-import os from "os";
-import { Variables } from "hono/types";
+import type { Hono } from "hono";
+import os from "node:os";
+import type { Variables } from "hono/types";
 
 function getLocalIpAddress(): string {
 	const interfaces = os.networkInterfaces();
@@ -50,7 +50,7 @@ export async function startServer(app: Hono<{ Variables: Variables }>) {
 			const server = serve({
 				fetch: app.fetch,
 				hostname: HOST,
-				port: PORT
+				port: PORT,
 			});
 			logStartup(HOST, PORT, false, DEFAULT_PORT);
 			return server;
@@ -59,9 +59,9 @@ export async function startServer(app: Hono<{ Variables: Variables }>) {
 			process.exit(1);
 		}
 	}
-	
+
 	let attemptPort = DEFAULT_PORT;
-	let success = false;
+	const success = false;
 	let error: unknown = null;
 
 	for (let i = 0; i <= MAX_ATTEMPTS; i++) {
@@ -69,7 +69,7 @@ export async function startServer(app: Hono<{ Variables: Variables }>) {
 			const server = serve({
 				fetch: app.fetch,
 				hostname: HOST,
-				port: attemptPort
+				port: attemptPort,
 			});
 
 			const wasAutoIncremented = attemptPort !== DEFAULT_PORT;

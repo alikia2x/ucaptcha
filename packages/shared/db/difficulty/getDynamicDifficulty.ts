@@ -20,7 +20,7 @@ export async function getDynamicDifficulty(siteID: number, resourceID?: number):
 			ratePerPeriod: rule.threshold,
 			period: rule.timeRange,
 			burst: rule.threshold,
-			cost: 1
+			cost: 1,
 		});
 
 		if (!allowed && rule.difficulty > selectedDifficulty) {

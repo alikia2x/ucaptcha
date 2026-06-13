@@ -1,5 +1,5 @@
 import { db } from "../pg";
-import { DifficultyConfig, difficultyConfigTable } from "../schema";
+import { type DifficultyConfig, difficultyConfigTable } from "../schema";
 
 type CreateDifficultyConfigParams = Pick<
 	DifficultyConfig,
@@ -9,14 +9,14 @@ type CreateDifficultyConfigParams = Pick<
 export async function createDifficultyConfig({
 	siteID,
 	resourceID,
-	difficultyConfig
+	difficultyConfig,
 }: CreateDifficultyConfigParams) {
 	const result = await db
 		.insert(difficultyConfigTable)
 		.values({
 			siteID,
 			resourceID,
-			difficultyConfig: difficultyConfig
+			difficultyConfig: difficultyConfig,
 		})
 		.returning();
 

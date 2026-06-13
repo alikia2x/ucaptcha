@@ -1,20 +1,19 @@
 {
-  "include": ["src/**/*.ts"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "target": "ES2020",
-    "module": "ESNext",
-    "useDefineForClassFields": true,
-    "moduleResolution": "bundler",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": false,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "./dist",
-    "paths": {
-      "@db/*": ["./db/*"]
-    }
-  }
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "ESNext",
+		"useDefineForClassFields": true,
+		"moduleResolution": "bundler",
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": false,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outDir": "./dist",
+		"paths": {
+			"@db/*": ["./db/*"]
+		}
+	}
 }

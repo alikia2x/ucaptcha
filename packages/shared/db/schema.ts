@@ -7,9 +7,9 @@ import {
 	timestamp,
 	boolean,
 	index,
-	jsonb
+	jsonb,
 } from "drizzle-orm/pg-core";
-import { InferSelectModel } from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
 
 export interface DifficultyConfigValue {
 	default: number;
@@ -30,7 +30,7 @@ export const usersTable = pgTable("users", {
 	jwtSecret: text().notNull().default(""),
 	role: userRoleEnum().notNull().default("user"),
 	createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull()
+	updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
 
 export type User = InferSelectModel<typeof usersTable>;
@@ -43,15 +43,15 @@ export const sitesTable = pgTable(
 		siteKey: text().notNull().unique(),
 		userID: integer().notNull(),
 		createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull()
+		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 	},
 	(table) => [
 		foreignKey({
 			columns: [table.userID],
-			foreignColumns: [usersTable.id]
+			foreignColumns: [usersTable.id],
 		})
 			.onUpdate("cascade")
-			.onDelete("cascade")
+			.onDelete("cascade"),
 	]
 );
 
@@ -64,15 +64,15 @@ export const resourcesTable = pgTable(
 		name: text().notNull(),
 		siteID: integer().notNull(),
 		createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull()
+		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 	},
 	(table) => [
 		foreignKey({
 			columns: [table.siteID],
-			foreignColumns: [sitesTable.id]
+			foreignColumns: [sitesTable.id],
 		})
 			.onUpdate("cascade")
-			.onDelete("cascade")
+			.onDelete("cascade"),
 	]
 );
 
@@ -88,29 +88,29 @@ export const challengesLogTable = pgTable(
 		difficulty: integer().notNull(),
 		correctlyAnswered: boolean().notNull().default(false),
 		createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-		answeredAt: timestamp({ withTimezone: true })
+		answeredAt: timestamp({ withTimezone: true }),
 	},
 	(table) => [
 		foreignKey({
 			columns: [table.siteID],
-			foreignColumns: [sitesTable.id]
+			foreignColumns: [sitesTable.id],
 		})
 			.onUpdate("cascade")
 			.onDelete("cascade"),
 		foreignKey({
 			columns: [table.resourceID],
-			foreignColumns: [resourcesTable.id]
+			foreignColumns: [resourcesTable.id],
 		})
 			.onUpdate("cascade")
 			.onDelete("cascade"),
 		foreignKey({
 			columns: [table.userID],
-			foreignColumns: [usersTable.id]
+			foreignColumns: [usersTable.id],
 		})
 			.onUpdate("cascade")
 			.onDelete("cascade"),
 		index("idx_log_created-at_uid").on(table.createdAt, table.userID),
-		index("idx_log_uid").on(table.userID)
+		index("idx_log_uid").on(table.userID),
 	]
 );
 
@@ -122,24 +122,24 @@ export const difficultyConfigTable = pgTable(
 		resourceID: integer(),
 		difficultyConfig: jsonb().$type<DifficultyConfigValue>().default({
 			default: 200000,
-			custom: []
+			custom: [],
 		}),
 		createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull()
+		updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 	},
 	(table) => [
 		foreignKey({
 			columns: [table.siteID],
-			foreignColumns: [sitesTable.id]
+			foreignColumns: [sitesTable.id],
 		})
 			.onUpdate("cascade")
 			.onDelete("cascade"),
 		foreignKey({
 			columns: [table.resourceID],
-			foreignColumns: [resourcesTable.id]
+			foreignColumns: [resourcesTable.id],
 		})
 			.onUpdate("cascade")
-			.onDelete("cascade")
+			.onDelete("cascade"),
 	]
 );
 
@@ -148,7 +148,7 @@ export const settingsTable = pgTable("settings", {
 	key: text().notNull().unique(),
 	value: jsonb().notNull(),
 	createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-	updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull()
+	updatedAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });
 
 export type Resource = InferSelectModel<typeof resourcesTable>;

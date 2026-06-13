@@ -8,9 +8,9 @@ import {
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
-	AlertDialogTitle
+	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { DifficultyConfigWithRelations } from "@ucaptcha/shared";
+import type { DifficultyConfigWithRelations } from "@ucaptcha/shared";
 
 interface DeleteDifficultyDialogProps {
 	open: boolean;
@@ -25,7 +25,7 @@ export function DeleteDifficultyDialog({
 	onOpenChange,
 	difficulty,
 	onDelete,
-	isLoading
+	isLoading,
 }: DeleteDifficultyDialogProps) {
 	const getConfigDescription = (config: DifficultyConfigWithRelations) => {
 		if (config.resourceID === null) {
@@ -42,7 +42,8 @@ export function DeleteDifficultyDialog({
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
 						This action cannot be undone. This will permanently delete the{" "}
-						{difficulty ? getConfigDescription(difficulty) : "difficulty configuration"} and remove all associated data.
+						{difficulty ? getConfigDescription(difficulty) : "difficulty configuration"}{" "}
+						and remove all associated data.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

@@ -1,15 +1,18 @@
 import { db } from "../pg";
-import { difficultyConfigTable, sitesTable, resourcesTable, DifficultyConfig } from "../schema";
+import { difficultyConfigTable, sitesTable, resourcesTable, type DifficultyConfig } from "../schema";
 import { eq, and } from "drizzle-orm";
 
 export type DifficultyConfigWithRelations = DifficultyConfig & {
 	siteName: string | null;
 	resourceName: string | null;
-}
+};
 
-export async function getDifficultyConfigs(userID: number, siteID?: number): Promise<DifficultyConfigWithRelations[]> {
+export async function getDifficultyConfigs(
+	userID: number,
+	siteID?: number
+): Promise<DifficultyConfigWithRelations[]> {
 	const conditions = [eq(sitesTable.userID, userID)];
-	
+
 	if (siteID) {
 		conditions.push(eq(difficultyConfigTable.siteID, siteID));
 	}
@@ -23,7 +26,7 @@ export async function getDifficultyConfigs(userID: number, siteID?: number): Pro
 			createdAt: difficultyConfigTable.createdAt,
 			updatedAt: difficultyConfigTable.updatedAt,
 			siteName: sitesTable.name,
-			resourceName: resourcesTable.name
+			resourceName: resourcesTable.name,
 		})
 		.from(difficultyConfigTable)
 		.leftJoin(sitesTable, eq(difficultyConfigTable.siteID, sitesTable.id))

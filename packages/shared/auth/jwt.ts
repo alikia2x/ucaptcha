@@ -1,5 +1,5 @@
-import { User } from "../db/schema";
-import { JWTPayload, SignJWT, jwtVerify } from "jose";
+import type { User } from "../db/schema";
+import { type JWTPayload, SignJWT, jwtVerify } from "jose";
 
 const REFRESH_TOKEN_EXPIRES_IN = "14d";
 
@@ -12,7 +12,7 @@ export async function generateAuthToken(user: User) {
 		userID: user.id,
 		email: user.email,
 		role: user.role,
-		name: user.name
+		name: user.name,
 	})
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()

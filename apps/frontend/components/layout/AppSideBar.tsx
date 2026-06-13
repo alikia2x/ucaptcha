@@ -8,16 +8,26 @@ import {
 	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
-	SidebarMenuItem
+	SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { verifyAuthToken } from "@ucaptcha/shared";
-import { ShieldCheck, FileText, FlaskConical, Gauge, Globe, User, Settings, BarChart3, UserCircle } from "lucide-react";
+import {
+	ShieldCheck,
+	FileText,
+	FlaskConical,
+	Gauge,
+	Globe,
+	User,
+	Settings,
+	BarChart3,
+	UserCircle,
+} from "lucide-react";
 import { cookies } from "next/headers";
 
 export async function AppSidebar() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("auth_token");
-	const { payload } = await verifyAuthToken(token!.value);
+	const { payload } = await verifyAuthToken(token?.value);
 	const isAdmin = payload?.role === "admin";
 
 	return (

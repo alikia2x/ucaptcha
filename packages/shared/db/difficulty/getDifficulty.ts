@@ -1,7 +1,7 @@
 import { redis } from "../redis";
 import { db } from "../pg";
 import { eq, and } from "drizzle-orm";
-import { difficultyConfigTable, DifficultyConfig } from "../schema";
+import { difficultyConfigTable, type DifficultyConfig } from "../schema";
 
 export async function getDifficultyConfig(
 	siteID: number,

@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -8,31 +10,31 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { Resource } from "@ucaptcha/shared";
+import type { Site } from "@ucaptcha/shared";
 
-interface DeleteResourceDialogProps {
+interface DeleteSiteDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
-	resource: Resource | null;
+	site: Site | null;
 	onDelete: () => void;
-	isLoading?: boolean;
+	isLoading: boolean;
 }
 
-export function DeleteResourceDialog({
+export function DeleteSiteDialog({
 	open,
 	onOpenChange,
-	resource,
+	site,
 	onDelete,
-	isLoading = false,
-}: DeleteResourceDialogProps) {
+	isLoading,
+}: DeleteSiteDialogProps) {
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChange}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
-						This action cannot be undone. This will permanently delete the resource "
-						{resource?.name}" and remove all associated data.
+						This action cannot be undone. This will permanently delete the site "
+						{site?.name}" and remove all associated data.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

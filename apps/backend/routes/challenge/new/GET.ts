@@ -1,6 +1,6 @@
 import { getDynamicDifficulty } from "@ucaptcha/shared";
 import { getSiteByKey, getSiteIDFromKey } from "@ucaptcha/shared";
-import { Context } from "hono";
+import type { Context } from "hono";
 import { redis } from "@ucaptcha/shared";
 import { errorResponse } from "@/lib/common";
 import { challengeKey, generateChallenge } from "@/lib/challenge";
@@ -36,13 +36,13 @@ export const getNewChallenge = async (c: Context) => {
 		resourceID: resourceID,
 		ttl: KEY_TTL,
 		difficulty: difficulty,
-		userID: userID
+		userID: userID,
 	});
 
 	return c.json({
 		id: challenge.id,
 		g: challenge.g,
 		T: challenge.T,
-		N: challenge.N
+		N: challenge.N,
 	});
 };

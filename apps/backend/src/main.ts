@@ -3,7 +3,7 @@ import type { TimingVariables } from "hono/timing";
 import { startServer } from "./startServer";
 import { configureRoutes } from "./routing";
 import { configureMiddleWares } from "./middleware";
-import { notFoundRoute } from "routes/404";
+import { notFoundRoute } from "@/routes/404";
 import { errorResponse } from "@/lib/common";
 import { rotateKey } from "@/lib/keys";
 import { initializeAdminUser } from "@/lib/adminInit";

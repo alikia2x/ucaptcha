@@ -9,4 +9,4 @@ export * from "./quota";
 export * from "./schema";
 export * from "./settings";
 export * from "./jwt";
-export * from "./challenges"
+export * from "./challenges";

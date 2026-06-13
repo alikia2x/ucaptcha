@@ -13,9 +13,6 @@
 		"start": {
 			"cache": false,
 			"persistent": true
-		},
-		"format": {
-			"outputs": []
 		}
 	}
 }

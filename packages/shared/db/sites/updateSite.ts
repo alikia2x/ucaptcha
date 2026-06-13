@@ -1,4 +1,4 @@
-import { Site, sitesTable } from "../schema";
+import { type Site, sitesTable } from "../schema";
 import { db } from "../pg";
 import { eq } from "drizzle-orm";
 

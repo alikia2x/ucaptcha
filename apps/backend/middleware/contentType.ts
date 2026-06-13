@@ -1,4 +1,4 @@
-import { Context, Next } from "hono";
+import type { Context, Next } from "hono";
 
 export const contentType = async (c: Context, next: Next) => {
 	await next();

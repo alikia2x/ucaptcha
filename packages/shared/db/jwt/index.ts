@@ -1,1 +1,1 @@
-export * from "./getSecret"
+export * from "./getSecret";

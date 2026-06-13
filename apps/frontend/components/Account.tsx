@@ -5,10 +5,27 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { Typography } from "@/components/ui/typography";
-import { User as UserIcon, Key, Shield, Copy, RefreshCw, Eye, EyeOff, AlertTriangle } from "lucide-react";
-import { type User } from "@ucaptcha/shared";
+import {
+	User as UserIcon,
+	Key,
+	Shield,
+	Copy,
+	RefreshCw,
+	Eye,
+	EyeOff,
+	AlertTriangle,
+} from "lucide-react";
+import type { User } from "@ucaptcha/shared";
 
 interface AccountProps {
 	user: Omit<User, "password">;
@@ -25,7 +42,9 @@ export default function Account({ user, userID }: AccountProps) {
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [newJwtSecret, setNewJwtSecret] = useState<string | null>(null);
-	const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+	const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(
+		null
+	);
 
 	const handlePasswordChange = async () => {
 		if (newPassword !== confirmPassword) {
@@ -53,19 +72,27 @@ export default function Account({ user, userID }: AccountProps) {
 			setNewPassword("");
 			setConfirmPassword("");
 		} catch (error) {
-			setMessage({ type: "error", text: error instanceof Error ? error.message : "Error changing password" });
+			setMessage({
+				type: "error",
+				text: error instanceof Error ? error.message : "Error changing password",
+			});
 		}
 	};
 
 	const handleJwtSecretRegenerate = async () => {
 		try {
-			const { regenerateJwtSecretAction } = await import("../app/(dashboard)/account/actions");
+			const { regenerateJwtSecretAction } = await import(
+				"../app/(dashboard)/account/actions"
+			);
 			const result = await regenerateJwtSecretAction(userID);
 
 			setNewJwtSecret(result.jwtSecret);
 			setMessage({ type: "success", text: "JWT secret regenerated successfully" });
 		} catch (error) {
-			setMessage({ type: "error", text: error instanceof Error ? error.message : "Error regenerating JWT secret" });
+			setMessage({
+				type: "error",
+				text: error instanceof Error ? error.message : "Error regenerating JWT secret",
+			});
 		}
 	};
 
@@ -80,7 +107,9 @@ export default function Account({ user, userID }: AccountProps) {
 			<Typography.H1 className="mt-4 ml-1">Account Management</Typography.H1>
 
 			{message && (
-				<div className={`mt-4 p-4 rounded-lg ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+				<div
+					className={`mt-4 p-4 rounded-lg ${message.type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+				>
 					{message.text}
 				</div>
 			)}
@@ -93,9 +122,7 @@ export default function Account({ user, userID }: AccountProps) {
 							<UserIcon className="size-5" />
 							User Information
 						</CardTitle>
-						<CardDescription>
-							Your account details and information
-						</CardDescription>
+						<CardDescription>Your account details and information</CardDescription>
 					</CardHeader>
 					<div className="p-6 space-y-4">
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -105,7 +132,12 @@ export default function Account({ user, userID }: AccountProps) {
 							</div>
 							<div>
 								<Label htmlFor="email">Email</Label>
-								<Input id="email" value={user.email || "Not set"} readOnly className="mt-1" />
+								<Input
+									id="email"
+									value={user.email || "Not set"}
+									readOnly
+									className="mt-1"
+								/>
 							</div>
 							<div>
 								<Label htmlFor="role">Role</Label>
@@ -148,18 +180,23 @@ export default function Account({ user, userID }: AccountProps) {
 									<DialogHeader>
 										<DialogTitle>Change Password</DialogTitle>
 										<DialogDescription>
-											Enter your current password and a new password to update your account.
+											Enter your current password and a new password to update
+											your account.
 										</DialogDescription>
 									</DialogHeader>
 									<div className="space-y-4">
 										<div>
-											<Label htmlFor="current-password">Current Password</Label>
+											<Label htmlFor="current-password">
+												Current Password
+											</Label>
 											<div className="relative">
 												<Input
 													id="current-password"
 													type={showPassword ? "text" : "password"}
 													value={currentPassword}
-													onChange={(e) => setCurrentPassword(e.target.value)}
+													onChange={(e) =>
+														setCurrentPassword(e.target.value)
+													}
 													className="mt-1 pr-10"
 												/>
 												<Button
@@ -169,7 +206,11 @@ export default function Account({ user, userID }: AccountProps) {
 													className="absolute right-0 top-0 h-full px-3 py-2"
 													onClick={() => setShowPassword(!showPassword)}
 												>
-													{showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+													{showPassword ? (
+														<EyeOff className="size-4" />
+													) : (
+														<Eye className="size-4" />
+													)}
 												</Button>
 											</div>
 										</div>
@@ -188,14 +229,22 @@ export default function Account({ user, userID }: AccountProps) {
 													variant="ghost"
 													size="sm"
 													className="absolute right-0 top-0 h-full px-3 py-2"
-													onClick={() => setShowNewPassword(!showNewPassword)}
+													onClick={() =>
+														setShowNewPassword(!showNewPassword)
+													}
 												>
-													{showNewPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+													{showNewPassword ? (
+														<EyeOff className="size-4" />
+													) : (
+														<Eye className="size-4" />
+													)}
 												</Button>
 											</div>
 										</div>
 										<div>
-											<Label htmlFor="confirm-password">Confirm New Password</Label>
+											<Label htmlFor="confirm-password">
+												Confirm New Password
+											</Label>
 											<Input
 												id="confirm-password"
 												type="password"
@@ -206,7 +255,10 @@ export default function Account({ user, userID }: AccountProps) {
 										</div>
 									</div>
 									<DialogFooter>
-										<Button variant="outline" onClick={() => setShowPasswordDialog(false)}>
+										<Button
+											variant="outline"
+											onClick={() => setShowPasswordDialog(false)}
+										>
 											Cancel
 										</Button>
 										<Button onClick={handlePasswordChange}>
@@ -229,8 +281,10 @@ export default function Account({ user, userID }: AccountProps) {
 										<DialogDescription className="flex items-start gap-2">
 											<AlertTriangle className="size-4 text-yellow-600 mt-0.5 shrink-0" />
 											<span>
-												This secret is used to sign challenge JWTs for uCaptcha verification.
-												Keep it secure and store it safely. Regenerating will invalidate all existing challenge tokens.
+												This secret is used to sign challenge JWTs for
+												uCaptcha verification. Keep it secure and store it
+												safely. Regenerating will invalidate all existing
+												challenge tokens.
 											</span>
 										</DialogDescription>
 									</DialogHeader>
@@ -239,7 +293,11 @@ export default function Account({ user, userID }: AccountProps) {
 											<Label>Current JWT Secret</Label>
 											<div className="mt-1 flex gap-2">
 												<div className="flex-1 p-3 rounded-md font-mono text-xs break-all max-h-32 overflow-y-auto">
-													{showJwtSecret ? user.jwtSecret : "•".repeat(Math.min(user.jwtSecret.length, 64))}
+													{showJwtSecret
+														? user.jwtSecret
+														: "•".repeat(
+																Math.min(user.jwtSecret.length, 64)
+															)}
 												</div>
 												<Button
 													type="button"
@@ -247,13 +305,19 @@ export default function Account({ user, userID }: AccountProps) {
 													size="sm"
 													onClick={() => setShowJwtSecret(!showJwtSecret)}
 												>
-													{showJwtSecret ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+													{showJwtSecret ? (
+														<EyeOff className="size-4" />
+													) : (
+														<Eye className="size-4" />
+													)}
 												</Button>
 											</div>
 										</div>
 										{newJwtSecret && (
 											<div>
-												<Label className="text-green-700">New JWT Secret (after regeneration)</Label>
+												<Label className="text-green-700">
+													New JWT Secret (after regeneration)
+												</Label>
 												<div className="mt-1 p-3 bg-green-100 rounded-md font-mono text-xs break-all max-h-32 overflow-y-auto">
 													{newJwtSecret}
 												</div>
@@ -279,7 +343,10 @@ export default function Account({ user, userID }: AccountProps) {
 										</div>
 									</div>
 									<DialogFooter>
-										<Button variant="outline" onClick={() => setShowJwtDialog(false)}>
+										<Button
+											variant="outline"
+											onClick={() => setShowJwtDialog(false)}
+										>
 											Close
 										</Button>
 									</DialogFooter>

@@ -8,7 +8,7 @@ export const getUserQuota = async (uid: number, update: boolean): Promise<number
 	const cachedData = await redis.get(cacheKey);
 	if (cachedData) {
 		update && (await redis.incr(cacheKey));
-		return Number.parseInt(cachedData);
+		return Number.parseInt(cachedData, 10);
 	}
 	const now = new Date();
 	const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

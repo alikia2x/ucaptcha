@@ -6,14 +6,7 @@ import { useEffect, useState } from "react";
 import { getQuota } from "@/lib/ssf";
 import { Label } from "./ui/label";
 import { Progress } from "./ui/progress";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle
-} from "@/components/ui/card";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Quota = ({ quota, uid }: { quota: number; uid: number }) => {
 	const [count, setCount] = useState(0);
@@ -25,7 +18,7 @@ export const Quota = ({ quota, uid }: { quota: number; uid: number }) => {
 			setCount(quota);
 		}, 1000);
 		return () => clearInterval(interval);
-	}, []);
+	}, [uid, quota]);
 
 	return (
 		<Card className="gap-2">

@@ -1,4 +1,4 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { errorResponse } from "@/lib/common";
 import { getChallengeByID, updateChallengeStatus } from "@/lib/challenge";
 
@@ -16,6 +16,6 @@ export const checkChallenge = async (c: Context<null, "/challenge/:id/check", nu
 		N: challenge.N,
 		resource: challenge.resource,
 		siteKey: challenge.siteKey,
-		status: challenge.status
+		status: challenge.status,
 	});
 };

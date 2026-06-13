@@ -5,7 +5,7 @@ import { db } from "@ucaptcha/shared";
 import { usersTable } from "@ucaptcha/shared";
 import { eq } from "drizzle-orm";
 import { verifyPassword, hashPassword } from "@/lib/auth/password";
-import { randomBytes } from "crypto";
+import { randomBytes } from "node:crypto";
 
 export async function getAccountData(userID: number) {
 	const user = await db
@@ -16,7 +16,7 @@ export async function getAccountData(userID: number) {
 			role: usersTable.role,
 			jwtSecret: usersTable.jwtSecret,
 			createdAt: usersTable.createdAt,
-			updatedAt: usersTable.updatedAt
+			updatedAt: usersTable.updatedAt,
 		})
 		.from(usersTable)
 		.where(eq(usersTable.id, userID))
@@ -73,7 +73,7 @@ export async function changePasswordAction(userID: number, formData: FormData) {
 		.update(usersTable)
 		.set({
 			password: hashedPassword,
-			updatedAt: new Date()
+			updatedAt: new Date(),
 		})
 		.where(eq(usersTable.id, userID));
 
@@ -89,7 +89,7 @@ export async function regenerateJwtSecretAction(userID: number) {
 		.update(usersTable)
 		.set({
 			jwtSecret: newSecret,
-			updatedAt: new Date()
+			updatedAt: new Date(),
 		})
 		.where(eq(usersTable.id, userID));
 

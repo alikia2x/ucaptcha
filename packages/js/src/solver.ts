@@ -18,12 +18,12 @@ export class VdfSolver {
 		if (this.mode === "bigint") {
 			console.log("VDF Solver: Using BigInt native worker.");
 			this.worker = new Worker(new URL("./worker.native.js", import.meta.url), {
-				type: "module"
+				type: "module",
 			});
 		} else {
 			console.log("VDF Solver: Using WASM worker.");
 			this.worker = new Worker(new URL("./worker.wasm.js", import.meta.url), {
-				type: "module"
+				type: "module",
 			});
 		}
 
@@ -54,8 +54,7 @@ export class VdfSolver {
 			return "bigint";
 		}
 
-		// Default to WASM in other cases as it has more predictable performance
-		return "wasm";
+		return "bigint";
 	}
 
 	/**

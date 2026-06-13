@@ -2,7 +2,7 @@ import { db } from "@ucaptcha/shared";
 import { usersTable } from "@ucaptcha/shared";
 import { count } from "drizzle-orm";
 import { hashPassword } from "./auth/password";
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 export async function initializeAdminUser(): Promise<void> {
 	const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
@@ -42,7 +42,7 @@ export async function initializeAdminUser(): Promise<void> {
 			email: ADMIN_EMAIL,
 			password: hashedPassword,
 			jwtSecret: jwtSecret,
-			role: "admin"
+			role: "admin",
 		});
 
 		console.log(`✅ Admin user created successfully:`);

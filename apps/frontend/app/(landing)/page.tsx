@@ -5,14 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Typography } from "@/components/ui/typography";
 import {
 	Shield,
-	Zap,
 	Users,
 	Lock,
 	ArrowRight,
 	CheckCircle,
 	Sparkles,
-	Code,
-	CircleDollarSign
+	CircleDollarSign,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -22,26 +20,26 @@ export default function LandingPage() {
 			icon: <Shield className="h-8 w-8" />,
 			title: "Advanced Security",
 			description:
-				"Protect your applications with sophisticated CAPTCHA challenges that deter bots while maintaining user accessibility."
+				"Protect your applications with sophisticated CAPTCHA challenges that deter bots while maintaining user accessibility.",
 		},
 		{
 			icon: <CircleDollarSign className="h-8 w-8" />,
 			title: "Miminum Cost",
 			description:
-				"Never pay a dime. Choose between our free cloud service or a private, self-hosted deployment."
+				"Never pay a dime. Choose between our free cloud service or a private, self-hosted deployment.",
 		},
 		{
 			icon: <Users className="h-8 w-8" />,
 			title: "User-Friendly",
 			description:
-				"No fire hydrant hunts. No pop-ups. Not even a click. Get your users verified with ease."
+				"No fire hydrant hunts. No pop-ups. Not even a click. Get your users verified with ease.",
 		},
 		{
 			icon: <Lock className="h-8 w-8" />,
 			title: "Privacy First",
 			description:
-				"Built with privacy in mind, ensuring user data protection and compliance with global privacy standards."
-		}
+				"Built with privacy in mind, ensuring user data protection and compliance with global privacy standards.",
+		},
 	];
 
 	const benefits = [
@@ -49,7 +47,7 @@ export default function LandingPage() {
 		"Improve user experience with seamless verification",
 		"Automatic difficulty adjustment",
 		"Easy integration with any platform",
-		"Free forever"
+		"Free forever",
 	];
 
 	return (

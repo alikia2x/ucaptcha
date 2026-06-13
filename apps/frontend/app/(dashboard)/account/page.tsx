@@ -20,10 +20,7 @@ export default async function AccountPage() {
 
 	return (
 		<div className="container mx-auto py-6">
-			<Account
-				user={user}
-				userID={payload.userID}
-			/>
+			<Account user={user} userID={payload.userID} />
 		</div>
 	);
 }

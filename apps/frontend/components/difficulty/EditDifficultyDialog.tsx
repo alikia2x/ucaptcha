@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogFooter,
 	DialogHeader,
-	DialogTitle
+	DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +32,7 @@ export function EditDifficultyDialog({
 	onDefaultDifficultyChange,
 	customRules,
 	onCustomRulesChange,
-	onUpdate
+	onUpdate,
 }: EditDifficultyDialogProps) {
 	const [isLoading, setIsLoading] = useState(false);
 

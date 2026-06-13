@@ -62,7 +62,7 @@ export async function generateRSAKey(length: number = 1536): Promise<RSAComponen
 			hash: "SHA-256",
 		},
 		true, // extractable
-		["encrypt", "decrypt"],
+		["encrypt", "decrypt"]
 	);
 
 	// Export the private key as a JWK
@@ -133,7 +133,7 @@ export function verifyVDF(
 	T: bigint,
 	y: bigint,
 	p: bigint,
-	q: bigint,
+	q: bigint
 ): boolean {
 	// Calculate the order of the quadratic residue subgroup: ord = p' * q'
 	// where p' = (p-1)/2 and q' = (q-1)/2

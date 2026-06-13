@@ -14,7 +14,7 @@ export default async function middleware(request: NextRequest) {
 
 	if (valid && pathname === "/") {
 		return NextResponse.redirect(new URL("/dashboard", request.url));
-	} 
+	}
 
 	const isPublicRoute = publicRoutes.some((route) => pathname === route);
 
@@ -53,5 +53,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"]
+	matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

@@ -1,4 +1,4 @@
-import { Context } from "hono";
+import type { Context } from "hono";
 import { sitesTable } from "@ucaptcha/shared";
 import { db } from "@ucaptcha/shared";
 import { verifyAuthToken } from "@ucaptcha/shared";
@@ -8,13 +8,13 @@ import { generate as randomKey } from "@alikia/random-key";
 export async function createSite(c: Context) {
 	try {
 		const authHeader = c.req.header("Authorization");
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
+		if (!authHeader?.startsWith("Bearer ")) {
 			return errorResponse(c, "Unauthorized", 401);
 		}
 
 		const token = authHeader.substring(7);
 		const { payload } = await verifyAuthToken(token);
-		
+
 		if (!payload) {
 			return errorResponse(c, "Invalid token", 401);
 		}
@@ -34,7 +34,7 @@ export async function createSite(c: Context) {
 			.values({
 				name,
 				siteKey,
-				userID: payload.userID
+				userID: payload.userID,
 			})
 			.returning();
 

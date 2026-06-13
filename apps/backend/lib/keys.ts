@@ -1,4 +1,4 @@
-import { generateRSAKey, RSAComponents } from "@ucaptcha/core";
+import { generateRSAKey, type RSAComponents } from "@ucaptcha/core";
 import { redis } from "@ucaptcha/shared";
 
 const currentKey = "ucaptcha:challenge_key:current";
@@ -7,6 +7,7 @@ const KEY_BITS = 1024;
 
 export async function rotateKey() {
 	const newKey = await generateRSAKey(KEY_BITS);
+	if (!newKey) return;
 	await redis.setex(currentKey, KEY_TTL, serializeKey(newKey));
 }
 
@@ -14,6 +15,7 @@ export async function getKeyForChallenge() {
 	const key = await redis.get(currentKey);
 	if (!key) {
 		const newKey = await generateRSAKey(KEY_BITS);
+		if (!newKey) return;
 		await redis.setex(currentKey, KEY_TTL, serializeKey(newKey));
 		return newKey;
 	}
@@ -24,7 +26,7 @@ export function serializeKey(key: RSAComponents) {
 	return JSON.stringify({
 		p: key.p.toString(),
 		q: key.q.toString(),
-		N: key.N.toString()
+		N: key.N.toString(),
 	});
 }
 
@@ -33,6 +35,6 @@ export function deserializeKey(key: string): RSAComponents {
 	return {
 		p: BigInt(parsed.p || 0),
 		q: BigInt(parsed.q || 0),
-		N: BigInt(parsed.N || 0)
+		N: BigInt(parsed.N || 0),
 	};
 }

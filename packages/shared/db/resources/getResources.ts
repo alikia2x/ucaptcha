@@ -14,7 +14,7 @@ export async function getResources(userID: number, siteID?: number) {
 			siteID: resourcesTable.siteID,
 			siteName: sitesTable.name,
 			createdAt: resourcesTable.createdAt,
-			updatedAt: resourcesTable.updatedAt
+			updatedAt: resourcesTable.updatedAt,
 		})
 		.from(resourcesTable)
 		.innerJoin(sitesTable, eq(resourcesTable.siteID, sitesTable.id))
@@ -28,7 +28,7 @@ export async function getResource(id: number) {
 			name: resourcesTable.name,
 			siteID: resourcesTable.siteID,
 			createdAt: resourcesTable.createdAt,
-			updatedAt: resourcesTable.updatedAt
+			updatedAt: resourcesTable.updatedAt,
 		})
 		.from(resourcesTable)
 		.where(eq(resourcesTable.id, id));
@@ -38,7 +38,7 @@ export async function getResourceID(siteKey: string, name: string) {
 	const cacheKey = `ucaptcha:resource_id:${siteKey}-${name}`;
 	const cachedData = await redis.get(cacheKey);
 	if (cachedData) {
-		return Number.parseInt(cachedData);
+		return Number.parseInt(cachedData, 10);
 	}
 
 	const result = await db

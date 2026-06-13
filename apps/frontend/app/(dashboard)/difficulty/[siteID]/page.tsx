@@ -23,14 +23,17 @@ export default async function DifficultyPage({ params }: DifficultyPageProps) {
 	}
 
 	// Parse siteID from path parameters
-	const parsedSiteId = siteID && siteID.length > 0 ? parseInt(siteID[0]) : undefined;
+	const parsedSiteId = siteID && siteID.length > 0 ? parseInt(siteID[0], 10) : undefined;
 
 	// Fetch data using Server Action
-	const { difficultyConfigs, sites, resources } = await getDifficultyData(payload.userID, parsedSiteId);
+	const { difficultyConfigs, sites, resources } = await getDifficultyData(
+		payload.userID,
+		parsedSiteId
+	);
 
 	// Filter difficulty configs by site ID if specified
 	const filteredDifficultyConfigs = parsedSiteId
-		? difficultyConfigs.filter(config => config.siteID === parsedSiteId)
+		? difficultyConfigs.filter((config) => config.siteID === parsedSiteId)
 		: difficultyConfigs;
 
 	if (filteredDifficultyConfigs.length === 0) {

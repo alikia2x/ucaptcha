@@ -2,35 +2,18 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogHeader,
-	DialogTitle
-} from "@/components/ui/dialog";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle
-} from "@/components/ui/alert-dialog";
-import { Plus, Edit, Trash2, Copy, Check } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Site } from "@ucaptcha/shared";
+import type { Site } from "@ucaptcha/shared";
 import {
 	createSiteAction,
 	updateSiteAction,
-	deleteSiteAction
+	deleteSiteAction,
 } from "@/app/(dashboard)/sites/actions";
+import { SitesList } from "./sites/SitesList";
+import { CreateSiteDialog } from "./sites/CreateSiteDialog";
+import { EditSiteDialog } from "./sites/EditSiteDialog";
+import { DeleteSiteDialog } from "./sites/DeleteSiteDialog";
 
 interface SitesProps {
 	initialSites: Site[];
@@ -38,7 +21,7 @@ interface SitesProps {
 }
 
 export default function Sites({ initialSites, userID }: SitesProps) {
-	const [sites, setSites] = useState<Site[]>(initialSites);
+	const [sites, _setSites] = useState<Site[]>(initialSites);
 	const [showCreateForm, setShowCreateForm] = useState(false);
 	const [editingSite, setEditingSite] = useState<Site | null>(null);
 	const [newSiteName, setNewSiteName] = useState("");
@@ -120,6 +103,12 @@ export default function Sites({ initialSites, userID }: SitesProps) {
 		}
 	};
 
+	const handleEditSite = (site: Site) => {
+		setEditingSite(site);
+		setNewSiteName(site.name);
+		setShowCreateForm(false);
+	};
+
 	return (
 		<div className="font-sans">
 			<div className="flex justify-between items-center">
@@ -130,185 +119,39 @@ export default function Sites({ initialSites, userID }: SitesProps) {
 				</Button>
 			</div>
 
-			{/* Create Site Dialog */}
-			<Dialog open={showCreateForm} onOpenChange={setShowCreateForm}>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Create New Site</DialogTitle>
-						<DialogDescription>Add a new site to manage</DialogDescription>
-					</DialogHeader>
-					<div className="space-y-4">
-						<div>
-							<Label className="mb-2" htmlFor="createSiteName">
-								Site Name
-							</Label>
-							<Input
-								id="createSiteName"
-								value={newSiteName}
-								onChange={(e) => setNewSiteName(e.target.value)}
-								placeholder="Enter site name"
-							/>
-						</div>
-					</div>
-					<DialogFooter>
-						<Button
-							onClick={handleCreateSite}
-							disabled={!newSiteName.trim() || isLoading}
-						>
-							Create Site
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() => {
-								setShowCreateForm(false);
-								setNewSiteName("");
-							}}
-						>
-							Cancel
-						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
+			<CreateSiteDialog
+				open={showCreateForm}
+				onOpenChange={setShowCreateForm}
+				siteName={newSiteName}
+				onSiteNameChange={setNewSiteName}
+				onCreate={handleCreateSite}
+				isLoading={isLoading}
+			/>
 
-			{/* Edit Site Dialog */}
-			<Dialog
+			<EditSiteDialog
 				open={!!editingSite}
 				onOpenChange={(open: boolean) => !open && setEditingSite(null)}
-			>
-				<DialogContent>
-					<DialogHeader>
-						<DialogTitle>Edit Site</DialogTitle>
-						<DialogDescription>Update your site information</DialogDescription>
-					</DialogHeader>
-					<div className="space-y-4">
-						<div>
-							<Label className="mb-2" htmlFor="editSiteName">
-								Site Name
-							</Label>
-							<Input
-								id="editSiteName"
-								value={newSiteName}
-								onChange={(e) => setNewSiteName(e.target.value)}
-								placeholder="Enter site name"
-							/>
-						</div>
-					</div>
-					<DialogFooter>
-						<Button
-							onClick={handleUpdateSite}
-							disabled={!newSiteName.trim() || isLoading}
-						>
-							Update Site
-						</Button>
-						<Button
-							variant="outline"
-							onClick={() => {
-								setEditingSite(null);
-								setNewSiteName("");
-							}}
-						>
-							Cancel
-						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
+				siteName={newSiteName}
+				onSiteNameChange={setNewSiteName}
+				onUpdate={handleUpdateSite}
+				isLoading={isLoading}
+			/>
 
-			<div className="mt-6 grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
-				{sites.length === 0 ? (
-					<Card>
-						<CardContent className="pt-6">
-							<div className="text-center text-muted-foreground">
-								No sites found. Create your first site to get started.
-							</div>
-						</CardContent>
-					</Card>
-				) : (
-					sites.map((site) => (
-						<Card key={site.id}>
-							<CardHeader>
-								<div className="flex justify-between items-start">
-									<div>
-										<CardTitle>{site.name}</CardTitle>
-										<CardDescription>
-											Created: {new Date(site.createdAt).toLocaleDateString()}
-										</CardDescription>
-									</div>
-									<div className="flex gap-2">
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => {
-												setEditingSite(site);
-												setNewSiteName(site.name);
-												setShowCreateForm(false);
-											}}
-										>
-											<Edit className="w-4 h-4" />
-										</Button>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() => setSiteToDelete(site)}
-										>
-											<Trash2 className="w-4 h-4" />
-										</Button>
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent>
-								<div className="space-y-2">
-									<div>
-										<Label className="mb-2" htmlFor={`siteKey-${site.id}`}>
-											Site Key
-										</Label>
-										<div className="flex gap-2">
-											<Input
-												id={`siteKey-${site.id}`}
-												value={site.siteKey}
-												readOnly
-												className="font-mono text-sm"
-											/>
-											<Button
-												variant="outline"
-												size="sm"
-												onClick={() => copyToClipboard(site.siteKey)}
-											>
-												{copiedKey === site.siteKey ? (
-													<Check className="w-4 h-4" />
-												) : (
-													<Copy className="w-4 h-4" />
-												)}
-											</Button>
-										</div>
-									</div>
-								</div>
-							</CardContent>
-						</Card>
-					))
-				)}
-			</div>
+			<SitesList
+				sites={sites}
+				copiedKey={copiedKey}
+				onEdit={handleEditSite}
+				onDelete={setSiteToDelete}
+				onCopy={copyToClipboard}
+			/>
 
-			{/* Delete Confirmation Dialog */}
-			<AlertDialog
+			<DeleteSiteDialog
 				open={!!siteToDelete}
 				onOpenChange={(open: boolean) => !open && setSiteToDelete(null)}
-			>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-						<AlertDialogDescription>
-							This action cannot be undone. This will permanently delete the site "
-							{siteToDelete?.name}" and remove all associated data.
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter>
-						<AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
-						<AlertDialogAction onClick={handleDeleteSite} disabled={isLoading}>
-							Continue
-						</AlertDialogAction>
-					</AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
+				site={siteToDelete}
+				onDelete={handleDeleteSite}
+				isLoading={isLoading}
+			/>
 		</div>
 	);
 }

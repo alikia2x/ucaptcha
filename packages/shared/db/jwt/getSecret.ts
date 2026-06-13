@@ -9,7 +9,10 @@ export const getJWTSecretForUser = async (uid: number) => {
 	if (cachedData) {
 		return cachedData;
 	}
-	const result = await db.select({ secret: usersTable.jwtSecret }).from(usersTable).where(eq(usersTable.id, uid));
+	const result = await db
+		.select({ secret: usersTable.jwtSecret })
+		.from(usersTable)
+		.where(eq(usersTable.id, uid));
 	if (result.length === 0) {
 		return null;
 	}

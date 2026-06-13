@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@ucaptcha/shared";
 import { usersTable } from "@ucaptcha/shared";
 import { eq } from "drizzle-orm";
@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
 				id: userData.id,
 				name: userData.name,
 				email: userData.email,
-				role: userData.role
-			}
+				role: userData.role,
+			},
 		});
 
 		response.cookies.set({
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
 			path: "/",
-			maxAge: 60 * 60 * 24 * 7
+			maxAge: 60 * 60 * 24 * 7,
 		});
 
 		return response;

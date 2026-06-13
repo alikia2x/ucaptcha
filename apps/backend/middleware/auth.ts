@@ -1,7 +1,7 @@
-import { Context, Next } from "hono";
+import type { Context, Next } from "hono";
 import { errorResponse } from "@/lib/common";
-import { JWTData, verifyAuthToken } from "@ucaptcha/shared";
-import { JWTPayload } from "jose";
+import { type JWTData, verifyAuthToken } from "@ucaptcha/shared";
+import type { JWTPayload } from "jose";
 
 export interface AuthStore {
 	authPayload: JWTPayload & JWTData;
@@ -9,7 +9,7 @@ export interface AuthStore {
 
 export const authMiddleware = async (c: Context<{ Variables: AuthStore }>, next: Next) => {
 	const authHeader = c.req.header("Authorization");
-	if (!authHeader || !authHeader.startsWith("Bearer ")) {
+	if (!authHeader?.startsWith("Bearer ")) {
 		return errorResponse(c, "Unauthorized", 401);
 	}
 

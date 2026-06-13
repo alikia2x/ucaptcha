@@ -17,14 +17,14 @@ export async function createSiteAction(userID: number, formData: FormData) {
 
 	await createSite({
 		name,
-		userID
+		userID,
 	});
 
 	revalidatePath("/sites");
 }
 
 export async function updateSiteAction(userID: number, formData: FormData) {
-	const id = parseInt(formData.get("id") as string);
+	const id = parseInt(formData.get("id") as string, 10);
 	const name = formData.get("name") as string;
 
 	if (!id || !name) {
@@ -42,7 +42,7 @@ export async function updateSiteAction(userID: number, formData: FormData) {
 }
 
 export async function deleteSiteAction(userID: number, formData: FormData) {
-	const id = parseInt(formData.get("id") as string);
+	const id = parseInt(formData.get("id") as string, 10);
 
 	if (!id) {
 		throw new Error("ID is required");

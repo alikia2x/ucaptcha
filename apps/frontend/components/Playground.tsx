@@ -18,7 +18,7 @@ export function buildUrl(
 	if (path) {
 		const trimmedPath = path.replace(/^\/+|\/+$/g, "");
 		const baseHasPath = url.pathname && url.pathname !== "/";
-		url.pathname = (baseHasPath ? url.pathname.replace(/\/+$/, "") + "/" : "/") + trimmedPath;
+		url.pathname = (baseHasPath ? `${url.pathname.replace(/\/+$/, "")}/` : "/") + trimmedPath;
 	}
 	if (urlParams) {
 		Object.keys(urlParams).forEach((key) => {
@@ -63,7 +63,7 @@ export function Generating() {
 	async function generateChallenge() {
 		const url = buildUrl(apiURL, "/challenge/new", {
 			siteKey,
-			resource
+			resource,
 		});
 		const response = await fetch(url);
 		const data = await response.json();
@@ -117,11 +117,11 @@ export function Validating({ className }: { className?: string }) {
 		const response = await fetch(url, {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				answer: result
-			})
+				answer: result,
+			}),
 		});
 		if (response.ok) {
 			setStatus("success");
@@ -141,7 +141,7 @@ export function Validating({ className }: { className?: string }) {
 
 	useEffect(() => {
 		setStatus("pending");
-	}, [serverResponse, result]);
+	}, []);
 
 	return (
 		<div className={className}>
@@ -164,7 +164,7 @@ export function Validating({ className }: { className?: string }) {
 	);
 }
 
-const solverAtom = atom<VdfSolver>(); 
+const solverAtom = atom<VdfSolver>();
 
 export function Solving() {
 	const [serverResponse, setServerResponse] = useAtom(serverResponseAtom);
@@ -179,7 +179,7 @@ export function Solving() {
 	useEffect(() => {
 		const s = new VdfSolver();
 		setSolver(s);
-	}, []);
+	}, [setSolver]);
 
 	async function solve() {
 		if (!solver) return;
@@ -205,7 +205,7 @@ export function Solving() {
 			}
 		}, 16);
 		return () => clearInterval(timer);
-	}, [solving]);
+	}, [solving, timeStart]);
 
 	async function getChallenge() {
 		const url = buildUrl(apiURL, `/challenge/${challengeID}`);

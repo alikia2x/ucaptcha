@@ -1,4 +1,4 @@
-import { Resource, resourcesTable } from "../schema";
+import { type Resource, resourcesTable } from "../schema";
 import { db } from "../pg";
 import { and, eq } from "drizzle-orm";
 

@@ -3,4 +3,4 @@ export { updateDifficultyConfig } from "./updateDifficultyConfig";
 export { deleteDifficultyConfig } from "./deleteDifficultyConfig";
 export { getDifficultyConfig } from "./getDifficulty";
 export { getDifficultyConfigs, type DifficultyConfigWithRelations } from "./getDifficultyConfigs";
-export * from "./getDynamicDifficulty"
+export * from "./getDynamicDifficulty";
