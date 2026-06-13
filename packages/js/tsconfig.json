@@ -7,6 +7,8 @@
 		"moduleDetection": "force",
 		"allowJs": true,
 
+		"types": ["rolldown-plugin-wasm/types"],
+
 		// Bundler mode
 		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,

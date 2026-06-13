@@ -8,7 +8,7 @@ import { SiteFilter } from "./resources/SiteFilter";
 import { CreateDifficultyDialog } from "./difficulty/CreateDifficultyDialog";
 import { EditDifficultyDialog } from "./difficulty/EditDifficultyDialog";
 import { DifficultyList } from "./difficulty/DifficultyList";
-import { DeleteDifficultyDialog } from "./difficulty/DeleteDifficultyDialog";
+import { DeleteEntityDialog } from "./shared/DeleteEntityDialog";
 import {
 	createDifficultyConfigAction,
 	updateDifficultyConfigAction,
@@ -126,6 +126,14 @@ export default function Difficulty({
 		}
 	};
 
+	const getDifficultyDescription = (config: DifficultyConfigWithRelations | null) => {
+		if (!config) return "";
+		if (config.resourceID === null) {
+			return `default configuration for site "${config.siteName}"`;
+		}
+		return `configuration for resource "${config.resourceName}" in site "${config.siteName}"`;
+	};
+
 	return (
 		<div className="font-sans">
 			<div className="flex justify-between items-baseline">
@@ -186,10 +194,11 @@ export default function Difficulty({
 			/>
 
 			{/* Delete Confirmation Dialog */}
-			<DeleteDifficultyDialog
+			<DeleteEntityDialog
 				open={!!difficultyToDelete}
 				onOpenChange={(open: boolean) => !open && setDifficultyToDelete(null)}
-				difficulty={difficultyToDelete}
+				entityName={getDifficultyDescription(difficultyToDelete)}
+				entityType="difficulty configuration"
 				onDelete={handleDeleteDifficulty}
 				isLoading={isLoading}
 			/>

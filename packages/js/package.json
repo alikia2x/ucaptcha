@@ -1,21 +1,25 @@
 {
 	"name": "@ucaptcha/js",
-	"version": "0.3.0",
+	"version": "0.4.1",
 	"private": false,
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"type": "module",
+	"files": [
+		"dist"
+	],
 	"scripts": {
-		"build": "tsup --config ./tsup.config.ts"
+		"build": "tsdown"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
+		"rolldown-plugin-wasm": "^0.3.2",
+		"tsdown": "^0.22.2",
 		"tsup": "^8.5.0"
 	},
 	"peerDependencies": {
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@ucaptcha/solver-wasm": "^0.1.0"
 	}
 }

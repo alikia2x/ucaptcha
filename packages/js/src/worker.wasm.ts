@@ -1,9 +1,12 @@
 import * as Comlink from "comlink";
-import { compute_vdf } from "@ucaptcha/solver-wasm";
-import rust_wasm_init from "@ucaptcha/solver-wasm";
+import { compute_vdf } from "./wasm/solver_wasm";
+import init from "./wasm/solver_wasm";
 import type { VdfWorkerApi, VdfProgressCallback } from "./types";
+import wasmUrl from './wasm/solver_wasm_bg.wasm?url';
 
-const wasmReady = rust_wasm_init();
+const wasmReady = init({
+	module_or_path: wasmUrl
+});
 
 const api: VdfWorkerApi = {
 	async compute(

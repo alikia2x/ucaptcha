@@ -1,3 +1,4 @@
+import { redis } from "../redis";
 import { db } from "../pg";
 import { type DifficultyConfig, difficultyConfigTable } from "../schema";
 
@@ -20,5 +21,19 @@ export async function createDifficultyConfig({
 		})
 		.returning();
 
-	return result[0];
+	const created = result[0];
+
+	if (created) {
+		const keysToDelete: string[] = [
+			`ucaptcha:difficulty_config:${siteID}`,
+		];
+
+		if (resourceID) {
+			keysToDelete.push(`ucaptcha:difficulty_config:${siteID}-${resourceID}`);
+		}
+
+		await redis.del(keysToDelete);
+	}
+
+	return created;
 }

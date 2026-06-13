@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -8,31 +10,34 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { Resource } from "@ucaptcha/shared";
 
-interface DeleteResourceDialogProps {
+interface DeleteEntityDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
-	resource: Resource | null;
+	/** The display name of the entity being deleted, shown in the confirmation message */
+	entityName: string;
+	/** The type label, e.g. "site", "resource", "difficulty configuration" */
+	entityType: string;
 	onDelete: () => void;
 	isLoading?: boolean;
 }
 
-export function DeleteResourceDialog({
+export function DeleteEntityDialog({
 	open,
 	onOpenChange,
-	resource,
+	entityName,
+	entityType,
 	onDelete,
 	isLoading = false,
-}: DeleteResourceDialogProps) {
+}: DeleteEntityDialogProps) {
 	return (
 		<AlertDialog open={open} onOpenChange={onOpenChange}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
-						This action cannot be undone. This will permanently delete the resource "
-						{resource?.name}" and remove all associated data.
+						This action cannot be undone. This will permanently delete the {entityType}{" "}
+						"{entityName}" and remove all associated data.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

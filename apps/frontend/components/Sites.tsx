@@ -13,7 +13,7 @@ import {
 import { SitesList } from "./sites/SitesList";
 import { CreateSiteDialog } from "./sites/CreateSiteDialog";
 import { EditSiteDialog } from "./sites/EditSiteDialog";
-import { DeleteSiteDialog } from "./sites/DeleteSiteDialog";
+import { DeleteEntityDialog } from "./shared/DeleteEntityDialog";
 
 interface SitesProps {
 	initialSites: Site[];
@@ -145,10 +145,11 @@ export default function Sites({ initialSites, userID }: SitesProps) {
 				onCopy={copyToClipboard}
 			/>
 
-			<DeleteSiteDialog
+			<DeleteEntityDialog
 				open={!!siteToDelete}
 				onOpenChange={(open: boolean) => !open && setSiteToDelete(null)}
-				site={siteToDelete}
+				entityName={siteToDelete?.name ?? ""}
+				entityType="site"
 				onDelete={handleDeleteSite}
 				isLoading={isLoading}
 			/>

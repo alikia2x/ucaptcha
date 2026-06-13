@@ -23,8 +23,8 @@ interface CreateResourceDialogProps {
 	onOpenChange: (open: boolean) => void;
 	resourceName: string;
 	onResourceNameChange: (name: string) => void;
-	selectedSiteId: number | "all";
-	onSiteIdChange: (siteID: number | "all") => void;
+	selectedSiteId: number;
+	onSiteIdChange: (siteID: number) => void;
 	sites: Site[];
 	onCreate: () => void;
 }
@@ -63,16 +63,13 @@ export function CreateResourceDialog({
 							Site
 						</Label>
 						<Select
-							value={selectedSiteId?.toString() || "all"}
-							onValueChange={(value) =>
-								onSiteIdChange(Number.isNaN(parseInt(value, 10)) ? "all" : parseInt(value, 10))
-							}
+							value={selectedSiteId ? selectedSiteId.toString() : ""}
+							onValueChange={(value) => onSiteIdChange(parseInt(value, 10))}
 						>
 							<SelectTrigger className="w-45">
-								<SelectValue />
+								<SelectValue placeholder="Select a site" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="all">All Sites</SelectItem>
 								{sites.map((site) => (
 									<SelectItem key={site.id} value={site.id.toString()}>
 										{site.name}
@@ -91,7 +88,7 @@ export function CreateResourceDialog({
 						onClick={() => {
 							onOpenChange(false);
 							onResourceNameChange("");
-							onSiteIdChange("all");
+							onSiteIdChange(0);
 						}}
 					>
 						Cancel

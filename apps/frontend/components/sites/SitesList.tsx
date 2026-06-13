@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Edit, Trash2, Copy, Check } from "lucide-react";
 import type { Site } from "@ucaptcha/shared";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface SitesListProps {
     sites: Site[];
@@ -36,12 +37,7 @@ function CopyButton({
 
 export function SitesList({ sites, copiedKey, onEdit, onDelete, onCopy }: SitesListProps) {
     if (sites.length === 0) {
-        return (
-            <div className="w-full h-[calc(100vh-14rem)] flex items-center justify-center flex-col gap-2">
-                <h2 className="text-3xl">No Sites</h2>
-				<p className="text-muted-foreground">Create your first site to get started.</p>
-            </div>
-        );
+        return <EmptyState title="No Sites" description="Create your first site to get started." />;
     }
 
     return (

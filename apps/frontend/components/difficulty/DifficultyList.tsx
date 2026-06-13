@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import type { DifficultyConfigWithRelations } from "@ucaptcha/shared";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface DifficultyListProps {
     difficultyConfigs: DifficultyConfigWithRelations[];
@@ -12,15 +13,6 @@ interface DifficultyListProps {
     selectedSiteName?: string;
     onEdit: (config: DifficultyConfigWithRelations) => void;
     onDelete: (config: DifficultyConfigWithRelations) => void;
-}
-
-function EmptyState() {
-    return (
-        <div className="w-full h-[calc(100vh-14rem)] flex items-center justify-center flex-col gap-2">
-            <h2 className="text-3xl">No Configurations</h2>
-            <p className="text-muted-foreground">Create your first difficulty configuration to get started.</p>
-        </div>
-    );
 }
 
 interface ConfigCardProps {
@@ -75,7 +67,7 @@ function SiteSection({ siteName, defaultConfig, resourceConfigs, onEdit, onDelet
     const visibleResourceConfigs = resourceConfigs.filter((c) => c.difficultyConfig);
 
     if (!hasDefault && visibleResourceConfigs.length === 0) {
-        return <EmptyState />;
+        return <EmptyState title="No Configurations" description="Create your first difficulty configuration to get started." />;
     }
 
     return (
@@ -136,7 +128,7 @@ export function DifficultyList({
     if (sitesToShow.length === 0) {
         return (
             <div className="mt-6 space-y-6">
-                <EmptyState />
+                <EmptyState title="No Configurations" description="Create your first difficulty configuration to get started." />
             </div>
         );
     }

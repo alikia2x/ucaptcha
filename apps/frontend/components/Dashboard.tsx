@@ -16,7 +16,7 @@ export const Quota = ({ quota, uid }: { quota: number; uid: number }) => {
 		const interval = setInterval(async () => {
 			const quota = await getQuota(uid);
 			setCount(quota);
-		}, 1000);
+		}, 5000);
 		return () => clearInterval(interval);
 	}, [uid, quota]);
 

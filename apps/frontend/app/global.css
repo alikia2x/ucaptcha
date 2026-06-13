@@ -119,6 +119,9 @@
 		color: black;
 		background: white;
 	}
+	body {
+		color-scheme: dark;
+	}
 }
 
 @layer base {

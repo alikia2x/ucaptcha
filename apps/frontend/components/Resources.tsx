@@ -8,7 +8,7 @@ import { SiteFilter } from "./resources/SiteFilter";
 import { CreateResourceDialog } from "./resources/CreateResourceDialog";
 import { EditResourceDialog } from "./resources/EditResourceDialog";
 import { ResourcesList } from "./resources/ResourcesList";
-import { DeleteResourceDialog } from "./resources/DeleteResourceDialog";
+import { DeleteEntityDialog } from "./shared/DeleteEntityDialog";
 import {
 	createResourceAction,
 	updateResourceAction,
@@ -31,8 +31,8 @@ export default function Resources({ resources, sites, selectedSiteId, userID }: 
 	const [showCreateForm, setShowCreateForm] = useState(false);
 	const [editingResource, setEditingResource] = useState<ResourceWithSite | null>(null);
 	const [newResourceName, setNewResourceName] = useState("");
-	const [selectedSiteIdForCreate, setSelectedSiteIdForCreate] = useState<number | "all">(
-		selectedSiteId || "all"
+	const [selectedSiteIdForCreate, setSelectedSiteIdForCreate] = useState<number>(
+		selectedSiteId ?? 0
 	);
 	const [resourceToDelete, setResourceToDelete] = useState<ResourceWithSite | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +60,7 @@ export default function Resources({ resources, sites, selectedSiteId, userID }: 
 			// Refresh the page to get updated data
 			router.refresh();
 			setNewResourceName("");
-			setSelectedSiteIdForCreate("all");
+			setSelectedSiteIdForCreate(0);
 			setShowCreateForm(false);
 		} catch (error) {
 			console.error("Error creating resource:", error);
@@ -161,10 +161,11 @@ export default function Resources({ resources, sites, selectedSiteId, userID }: 
 			/>
 
 			{/* Delete Confirmation Dialog */}
-			<DeleteResourceDialog
+			<DeleteEntityDialog
 				open={!!resourceToDelete}
 				onOpenChange={(open: boolean) => !open && setResourceToDelete(null)}
-				resource={resourceToDelete}
+				entityName={resourceToDelete?.name ?? ""}
+				entityType="resource"
 				onDelete={handleDeleteResource}
 				isLoading={isLoading}
 			/>

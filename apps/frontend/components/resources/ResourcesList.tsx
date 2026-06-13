@@ -2,6 +2,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import type { Resource } from "@ucaptcha/shared";
+import { EmptyState } from "@/components/shared/EmptyState";
 
 interface ResourceWithSite extends Resource {
     siteName: string;
@@ -16,19 +17,9 @@ interface ResourcesListProps {
 
 export function ResourcesList({ resources, selectedSiteId, onEdit, onDelete }: ResourcesListProps) {
     if (resources.length === 0 && !selectedSiteId) {
-        return (
-            <div className="w-full h-[calc(100vh-14rem)] flex items-center justify-center flex-col gap-2">
-                <h2 className="text-3xl">No Resources</h2>
-                <p className="text-muted-foreground">Create your first resource to get started.</p>
-            </div>
-        );
+        return <EmptyState title="No Resources" description="Create your first resource to get started." />;
     } else if (resources.length === 0) {
-        return (
-            <div className="w-full h-[calc(100vh-14rem)] flex items-center justify-center flex-col gap-2">
-                <h2 className="text-3xl">No Resources Found</h2>
-                <p className="text-muted-foreground">Please try changing the filter.</p>
-            </div>
-        );
+        return <EmptyState title="No Resources Found" description="Please try changing the filter." />;
     }
 
     return (

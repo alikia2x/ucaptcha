@@ -10,8 +10,8 @@ interface AllSettings {
 }
 
 const defaultSettings = {
-	rateLimitPerSec: 50,
-	monthlyQuota: 1000000,
+	rateLimitPerSec: 200,
+	monthlyQuota: 0,
 	allowSignup: false,
 } satisfies AllSettings;
 

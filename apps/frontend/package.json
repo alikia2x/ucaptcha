@@ -7,8 +7,6 @@
 		"start": "next start --port 7922"
 	},
 	"dependencies": {
-		"@ucaptcha/shared": "workspace:*",
-		"@ucaptcha/core": "workspace:*",
 		"@alikia/random-key": "^2.1.0",
 		"@alikia/ucaptcha-vdf-solver-wasm": "^0.1.0",
 		"@libsql/client": "^0.17.0",
@@ -23,7 +21,9 @@
 		"@radix-ui/react-slot": "^1.2.3",
 		"@radix-ui/react-tabs": "^1.1.13",
 		"@radix-ui/react-tooltip": "^1.2.8",
-		"@ucaptcha/js": "^0.2.1",
+		"@ucaptcha/core": "workspace:*",
+		"@ucaptcha/js": "workspace:*",
+		"@ucaptcha/shared": "workspace:*",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"comlink": "^4.4.2",

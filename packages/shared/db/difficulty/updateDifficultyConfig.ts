@@ -1,3 +1,4 @@
+import { redis } from "../redis";
 import { db } from "../pg";
 import { type DifficultyConfig, difficultyConfigTable } from "../schema";
 import { eq } from "drizzle-orm";
@@ -11,6 +12,16 @@ export async function updateDifficultyConfig({
 	difficultyConfig,
 	resourceID,
 }: UpdateDifficultyConfigParams) {
+	console.log(id, difficultyConfig, resourceID)
+	const existing = await db
+		.select()
+		.from(difficultyConfigTable)
+		.where(eq(difficultyConfigTable.id, id))
+		.limit(1);
+
+	const oldSiteID = existing[0]?.siteID;
+	const oldResourceID = existing[0]?.resourceID;
+
 	const result = await db
 		.update(difficultyConfigTable)
 		.set({
@@ -21,5 +32,24 @@ export async function updateDifficultyConfig({
 		.where(eq(difficultyConfigTable.id, id))
 		.returning();
 
-	return result[0];
+	const updated = result[0];
+
+	if (oldSiteID != null) {
+		const keysToDelete: string[] = [
+			`ucaptcha:difficulty_config:${oldSiteID}`,
+		];
+
+		if (oldResourceID) {
+			keysToDelete.push(`ucaptcha:difficulty_config:${oldSiteID}-${oldResourceID}`);
+		}
+
+		const newResourceID = updated?.resourceID;
+		if (newResourceID && newResourceID !== oldResourceID) {
+			keysToDelete.push(`ucaptcha:difficulty_config:${oldSiteID}-${newResourceID}`);
+		}
+
+		await redis.del(keysToDelete);
+	}
+
+	return updated;
 }
