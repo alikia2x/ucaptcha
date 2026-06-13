@@ -3,6 +3,20 @@ import type { VdfWorkerApi, VdfProgressCallback } from "./types";
 
 type WorkerMode = "bigint" | "wasm";
 
+export interface VdfSolverOptions {
+	/**
+	 * Absolute URL to the WASM binary.
+	 * When provided, this URL is passed directly to the worker — no resolution is
+	 * attempted inside the WorkerGlobalScope.  This is the preferred path because
+	 * import.meta.url-based resolution is fragile across bundlers (webpack /
+	 * Turbopack / Vite …) when running inside a Web Worker.
+	 *
+	 * When omitted the worker falls back to resolving `./solver_wasm_bg.wasm`
+	 * relative to its own `import.meta.url`, which may not work in all setups.
+	 */
+	wasmUrl?: string;
+}
+
 export class VdfSolver {
 	private worker: Worker;
 	private workerApi: Comlink.Remote<VdfWorkerApi>;
@@ -12,7 +26,7 @@ export class VdfSolver {
 	 * Creates a VdfSolver instance.
 	 * The constructor automatically detects the current browser environment and loads the optimal Web Worker.
 	 */
-	constructor() {
+	constructor(options?: VdfSolverOptions) {
 		this.mode = this.getWorkerMode();
 
 		if (this.mode === "bigint") {
@@ -28,33 +42,26 @@ export class VdfSolver {
 		}
 
 		this.workerApi = Comlink.wrap<VdfWorkerApi>(this.worker);
+
+		if (this.mode === "wasm" && options?.wasmUrl) {
+			const absoluteWasmUrl = new URL(options.wasmUrl, self.location.href).href;
+			this.workerApi.initWasm(absoluteWasmUrl);
+		}
 	}
 
 	/**
 	 * Decides which Worker to use based on the browser's User Agent and feature support.
-	 * - Firefox: Always use WASM (for performance considerations).
-	 * - Chrome/Safari with BigInt support: Use the native BigInt implementation.
-	 * - No BigInt support or other browsers: Use WASM as a fallback.
+	 * - Default: Use the native BigInt implementation.
+	 * - No BigInt support: Use WASM as a fallback.
 	 * @returns 'bigint' or 'wasm'
 	 */
 	private getWorkerMode(): WorkerMode {
 		if (typeof BigInt === "undefined") {
-			return "wasm"; // If BigInt is not supported, WASM must be used
-		}
-
-		const ua = navigator.userAgent.toLowerCase();
-
-		// Firefox might be slower than V8/JSC on some BigInt operations, prioritize WASM
-		if (ua.includes("firefox")) {
 			return "wasm";
 		}
-
-		// BigInt performance in V8 (Chrome/Edge) and JavaScriptCore (Safari) is very good
-		if (ua.includes("chrome") || ua.includes("safari") || ua.includes("edge")) {
+		else {
 			return "bigint";
 		}
-
-		return "bigint";
 	}
 
 	/**
@@ -72,7 +79,7 @@ export class VdfSolver {
 		onProgress?: VdfProgressCallback
 	): Promise<string> {
 		// Create a default empty callback to avoid null checks in the worker
-		const progressCallback = onProgress || (() => {});
+		const progressCallback = onProgress || (() => { });
 
 		// Use Comlink.proxy to pass the callback function to the worker
 		return this.workerApi.compute(g, N, T, Comlink.proxy(progressCallback));

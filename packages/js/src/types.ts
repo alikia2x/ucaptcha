@@ -7,6 +7,13 @@ import type * as Comlink from "comlink";
 export type VdfProgressCallback = (progress: number) => void;
 
 export interface VdfWorkerApi {
+	/**
+	 * Initialize the WASM module with the given absolute URL.
+	 * Must be called (and awaited) before `compute`.  Safe to call multiple
+	 * times — subsequent calls are no-ops.
+	 */
+	initWasm(wasmUrl: string): Promise<void>;
+
 	compute(
 		g: string,
 		N: string,

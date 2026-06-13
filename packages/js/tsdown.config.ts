@@ -5,6 +5,7 @@ export default defineConfig({
     entry: ['./src/index.ts', './src/worker.native.ts', './src/worker.wasm.ts'],
     deps: {
         alwaysBundle: ['@ucaptcha/solver-wasm'],
+        neverBundle: ['comlink'],
     },
     dts: {
         tsconfig: "./tsconfig.json",
@@ -16,7 +17,7 @@ export default defineConfig({
         chunkFileNames: '[name]-[hash].js'
     },
     sourcemap: true,
-    minify: true,
-    treeshake: true,
+    minify: false,
+    treeshake: false,
     plugins: [wasm({ targetEnv: "browser", fileName: "[name][extname]" })],
 })

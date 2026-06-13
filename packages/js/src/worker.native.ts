@@ -2,6 +2,10 @@ import * as Comlink from "comlink";
 import type { VdfWorkerApi, VdfProgressCallback } from "./types";
 
 const api: VdfWorkerApi = {
+	async initWasm(_wasmUrl: string): Promise<void> {
+		// Native BigInt worker doesn't use WASM — no-op
+	},
+
 	async compute(
 		gStr: string,
 		NStr: string,
