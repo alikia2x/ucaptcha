@@ -36,9 +36,10 @@ export function createCaptchaSolver(options: CaptchaSolverOptions): CaptchaSolve
 			);
 
 			if (!challengeResponse.ok) {
-				const errorData = (await challengeResponse.json().catch(() => ({}))) as any;
+				const errorData = (await challengeResponse.json().catch(() => ({}))) as Record<string, unknown>;
+				const errorMessage = typeof errorData.message === "string" ? errorData.message : undefined;
 				throw new CaptchaSolverError(
-					errorData.message || `Failed to get challenge: ${challengeResponse.statusText}`,
+					errorMessage || `Failed to get challenge: ${challengeResponse.statusText}`,
 					challengeResponse.status,
 					errorData
 				);
@@ -66,9 +67,10 @@ export function createCaptchaSolver(options: CaptchaSolverOptions): CaptchaSolve
 			);
 
 			if (!answerResponse.ok) {
-				const errorData = (await answerResponse.json().catch(() => ({}))) as any;
+				const errorData = (await answerResponse.json().catch(() => ({}))) as Record<string, unknown>;
+				const errorMessage = typeof errorData.message === "string" ? errorData.message : undefined;
 				throw new CaptchaSolverError(
-					errorData.message || `Failed to submit answer: ${answerResponse.statusText}`,
+					errorMessage || `Failed to submit answer: ${answerResponse.statusText}`,
 					answerResponse.status,
 					errorData
 				);
@@ -104,9 +106,9 @@ export function createCaptchaSolver(options: CaptchaSolverOptions): CaptchaSolve
  */
 export class CaptchaSolverError extends Error implements CaptchaError {
 	public code?: number;
-	public details?: any;
+	public details?: unknown;
 
-	constructor(message: string, code?: number, details?: any) {
+	constructor(message: string, code?: number, details?: unknown) {
 		super(message);
 		this.name = "CaptchaSolverError";
 		this.code = code;

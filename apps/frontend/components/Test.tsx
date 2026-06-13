@@ -9,7 +9,11 @@ async function test() {
 	await rust_wasm_init();
 	// Parameters: p, q, N are invisible to the Prover (Challenger).
 	console.time("key_generation");
-	const key = (await generateRSAKey(1024))!;
+	const key = await generateRSAKey(1024);
+	if (!key) {
+		console.error("Failed to generate RSA key");
+		return;
+	}
 	console.timeEnd("key_generation");
 	const p = key.p;
 	const q = key.q;

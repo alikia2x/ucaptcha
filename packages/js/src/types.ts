@@ -36,7 +36,7 @@ export interface AnswerResponse {
 export interface CaptchaError {
 	message: string;
 	code?: number;
-	details?: any;
+	details?: unknown;
 }
 
 export type CaptchaSolver = (resourceName: string) => Promise<string>;

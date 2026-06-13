@@ -13,17 +13,38 @@ import { settingsManager } from "@ucaptcha/shared";
 export default async function Home() {
 	const cookieStore = await cookies();
 	const authToken = cookieStore.get("auth_token")?.value;
-	const { payload } = await verifyAuthToken(authToken!);
+	if (!authToken) {
+		return (
+			<div className="font-sans">
+				<Typography.H1 className="mt-4 ml-1">Dashboard</Typography.H1>
+				<div className="mt-4">
+					<p>Please log in to view your dashboard.</p>
+				</div>
+			</div>
+		);
+	}
+	const { payload } = await verifyAuthToken(authToken);
+	if (!payload?.userID) {
+		return (
+			<div className="font-sans">
+				<Typography.H1 className="mt-4 ml-1">Dashboard</Typography.H1>
+				<div className="mt-4">
+					<p>Invalid user session. Please log in again.</p>
+				</div>
+			</div>
+		);
+	}
+	const userID = payload.userID;
 	const hasQuota = (await settingsManager.get("monthlyQuota")) > 0;
-	const quota = await getUserQuota(payload?.userID!, false);
-	const solved = await getSolvedChallengesInLastMonthByUser(payload?.userID!);
-	const generated = await getChallengesGeneratedInLastMonthByUser(payload?.userID!);
+	const quota = await getUserQuota(userID, false);
+	const solved = await getSolvedChallengesInLastMonthByUser(userID);
+	const generated = await getChallengesGeneratedInLastMonthByUser(userID);
 
 	return (
 		<div className="font-sans">
 			<Typography.H1 className="mt-4 ml-1">Dashboard</Typography.H1>
 			<div className="mt-4 grid grid-cols-1 max-lg:gap-6 xl:grid-cols-2 gap-6">
-				{hasQuota && <Quota quota={quota} uid={payload?.userID!} />}
+				{hasQuota && <Quota quota={quota} uid={userID} />}
 				<div className="grid sm:grid-cols-2 gap-6">
 					<Card className="gap-3">
 						<CardHeader>

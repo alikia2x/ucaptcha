@@ -27,7 +27,7 @@ import { cookies } from "next/headers";
 export async function AppSidebar() {
 	const cookieStore = await cookies();
 	const token = cookieStore.get("auth_token");
-	const { payload } = await verifyAuthToken(token?.value);
+	const { payload } = token?.value ? await verifyAuthToken(token.value) : { payload: undefined };
 	const isAdmin = payload?.role === "admin";
 
 	return (
@@ -36,10 +36,10 @@ export async function AppSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem key="header">
 						<SidebarMenuButton asChild>
-							<a href="#">
+							<span>
 								<ShieldCheck className="size-5!" />
 								<span className="text-base font-semibold">μCaptcha</span>
-							</a>
+							</span>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>

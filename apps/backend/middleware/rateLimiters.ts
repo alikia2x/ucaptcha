@@ -28,7 +28,7 @@ export const getUserQuota = async (uid: number) => {
 };
 
 export const newChallengeRateLimiter = async (
-	c: Context<BlankEnv, "/challenge/new", {}>,
+	c: Context<BlankEnv, "/challenge/new", object>,
 	next: Next
 ) => {
 	const limiter = new RateLimiter(redis);

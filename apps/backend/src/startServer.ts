@@ -6,7 +6,9 @@ import type { Variables } from "hono/types";
 function getLocalIpAddress(): string {
 	const interfaces = os.networkInterfaces();
 	for (const name of Object.keys(interfaces)) {
-		for (const iface of interfaces[name]!) {
+		const ifaces = interfaces[name];
+		if (!ifaces) continue;
+		for (const iface of ifaces) {
 			if (iface.family === "IPv4" && !iface.internal) {
 				return iface.address;
 			}
@@ -54,8 +56,9 @@ export async function startServer(app: Hono<{ Variables: Variables }>) {
 			});
 			logStartup(HOST, PORT, false, DEFAULT_PORT);
 			return server;
-		} catch (e: any) {
-			console.error(`Failed to start server on port ${PORT}:`, e.message);
+		} catch (e: unknown) {
+			const message = e instanceof Error ? e.message : String(e);
+			console.error(`Failed to start server on port ${PORT}:`, message);
 			process.exit(1);
 		}
 	}
@@ -76,8 +79,8 @@ export async function startServer(app: Hono<{ Variables: Variables }>) {
 
 			logStartup(HOST, attemptPort, wasAutoIncremented, DEFAULT_PORT);
 			return server;
-		} catch (e: any) {
-			if (e.code === "EADDRINUSE") {
+		} catch (e: unknown) {
+			if (typeof e === "object" && e !== null && "code" in e && (e as { code: string }).code === "EADDRINUSE") {
 				attemptPort++;
 			} else {
 				error = e;

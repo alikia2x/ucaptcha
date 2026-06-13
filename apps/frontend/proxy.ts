@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
 
 	const authToken = request.cookies.get("auth_token")?.value;
 
-	const { valid } = await verifyAuthToken(authToken!);
+	const { valid } = authToken ? await verifyAuthToken(authToken) : { valid: false };
 
 	if (valid && pathname === "/") {
 		return NextResponse.redirect(new URL("/dashboard", request.url));

@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents when working with code in this repository.
 
 ## Project Overview
 
@@ -25,7 +25,8 @@ The backend uses PostgreSQL for persistent storage and Redis for caching/rate li
 
 ```bash
 bun install                    # Install all dependencies
-bun run format                 # Format code with Prettier
+bun run format                 # Format code with Biome
+bun run lint                   # Lint code with Biome
 ```
 
 ### Backend (apps/backend)

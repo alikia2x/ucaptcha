@@ -111,9 +111,9 @@ export default function LandingPage() {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-						{features.map((feature, index) => (
+						{features.map((feature) => (
 							<Card
-								key={index}
+								key={feature.title}
 								className="text-center border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
 							>
 								<CardHeader>
@@ -149,8 +149,8 @@ export default function LandingPage() {
 							</Typography.P>
 
 							<div className="space-y-4">
-								{benefits.map((benefit, index) => (
-									<div key={index} className="flex items-center gap-3">
+								{benefits.map((benefit) => (
+									<div key={benefit} className="flex items-center gap-3">
 										<CheckCircle className="h-5 w-5 text-primary shrink-0" />
 										<span className="text-lg">{benefit}</span>
 									</div>

@@ -171,7 +171,9 @@ function generateRandomBigInt(min: bigint, max: bigint): bigint {
 		crypto.getRandomValues(randomBytes);
 		result = 0n;
 		for (let i = 0; i < byteLength; i++) {
-			result = (result << 8n) | BigInt(randomBytes[i]!);
+			const byte = randomBytes[i];
+			if (byte === undefined) continue;
+			result = (result << 8n) | BigInt(byte);
 		}
 		result = result & mask; // Ensure it doesn't exceed bitLength
 	} while (result > range);

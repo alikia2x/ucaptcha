@@ -142,6 +142,7 @@ export function CustomRulesManager({ customRules, onCustomRulesChange }: CustomR
 						<div className="space-y-3">
 							{customRules.map((rule, index) => (
 								<div
+									// biome-ignore lint/suspicious/noArrayIndexKey: Rules have no natural unique ID; the list is stable and index-based keys are acceptable here
 									key={index}
 									className="flex items-center gap-4 p-3 border rounded-lg"
 								>
