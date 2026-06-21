@@ -318,7 +318,8 @@ export default function Account({ user, userID }: AccountProps) {
 												<Label className="text-green-700">
 													New JWT Secret (after regeneration)
 												</Label>
-												<div className="mt-1 p-3 bg-green-100 rounded-md font-mono text-xs break-all max-h-32 overflow-y-auto">
+												<div className="mt-1 p-3 bg-green-100 
+												rounded-md font-mono text-xs text-green-900 break-all max-h-32 overflow-y-auto">
 													{newJwtSecret}
 												</div>
 											</div>

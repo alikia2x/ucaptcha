@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { redis } from "@ucaptcha/shared";
+import { redis, resourcesTable, sitesTable } from "@ucaptcha/shared";
 import { errorResponse } from "@/lib/common";
 import { getChallengeByID, updateChallengeStatus, verifyChallenge } from "@/lib/challenge";
 import { sign } from "hono/jwt";
@@ -43,10 +43,19 @@ export const answerChallenge = async (c: Context<null, "/challenge/:id/answer", 
 	const NOW = Math.floor(Date.now() / 1000);
 	const FIVE_MINUTES_LATER = NOW + currentTTL;
 	const secret = await getJWTSecretForUser(challenge.userId);
+	const challengeDetails = await db.select()
+		.from(challengesLogTable)
+		.leftJoin(resourcesTable, eq(challengesLogTable.resourceID, resourcesTable.id))
+		.leftJoin(sitesTable, eq(challengesLogTable.siteID, sitesTable.id))
+		.where(eq(challengesLogTable.challengeID, id));
+	const resource = challengeDetails[0]?.resources?.name;
+	const siteKey = challengeDetails[0]?.sites?.siteKey;
 	const jwt = await sign(
 		{
-			id: id,
+			jti: id,
 			exp: FIVE_MINUTES_LATER,
+			resource,
+			siteKey
 		},
 		secret
 	);

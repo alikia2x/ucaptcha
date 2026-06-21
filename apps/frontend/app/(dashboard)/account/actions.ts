@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { db } from "@ucaptcha/shared";
+import { db, redis } from "@ucaptcha/shared";
 import { usersTable } from "@ucaptcha/shared";
 import { eq } from "drizzle-orm";
 import { verifyPassword, hashPassword } from "@/lib/auth/password";
@@ -84,6 +84,9 @@ export async function regenerateJwtSecretAction(userID: number) {
 	// Generate a new random JWT secret (64 characters hex)
 	const newSecret = randomBytes(32).toString("hex");
 
+	const cacheKey = `ucaptcha:jwt_secret:${userID}`;
+	await redis.setex(cacheKey, 3600, newSecret);
+
 	// Update user's JWT secret
 	await db
 		.update(usersTable)
@@ -92,7 +95,7 @@ export async function regenerateJwtSecretAction(userID: number) {
 			updatedAt: new Date(),
 		})
 		.where(eq(usersTable.id, userID));
-
+	
 	revalidatePath("/account");
 
 	return { jwtSecret: newSecret };
